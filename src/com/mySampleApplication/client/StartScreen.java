@@ -13,6 +13,7 @@ public class StartScreen {
     private RadioButton btnBlue;
     private Button go;
     private Button newGame;
+    private Button JoinGame;
     private FlowPanel colorBtnGroup;
 
     private Label nickname;
@@ -72,16 +73,15 @@ public class StartScreen {
         getNickName().setText("");
         setNewGame(new Button("CREATE\nGAME"));
         getNickname().setText("ENTER GAME ID TO JOIN:");
-        getGo().setText("JOIN\nGAME");
+        setJoinGame(new Button("JOIN\nGAME"));
 
-        getGo().setStyleName("button-std");
+        getJoinGame().setStyleName("button-std");
         getNewGame().setStyleName("button-std");
         getWelcomeBox().resizeRows(2);
         getWelcomeBox().setWidget(0, 0, getNickname());
         getWelcomeBox().setWidget(0, 1, getNickName());
         getWelcomeBox().setWidget(1, 0, getNewGame());
-        getWelcomeBox().setWidget(1, 1, getGo());
-
+        getWelcomeBox().setWidget(1, 1, getJoinGame());
     }
 
     public void makeP1(){
@@ -252,6 +252,14 @@ public class StartScreen {
 
     public void setBtnRed(RadioButton btnRed) {
         this.btnRed = btnRed;
+    }
+
+    public Button getJoinGame() {
+        return JoinGame;
+    }
+
+    public void setJoinGame(Button joinGame) {
+        JoinGame = joinGame;
     }
 }
 
