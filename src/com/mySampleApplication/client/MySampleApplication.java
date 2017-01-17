@@ -12,9 +12,9 @@ public class MySampleApplication implements EntryPoint {
         MainPage.welcomePopUpBox();
 
         MainPage.getGo().addClickHandler((ClickEvent event) -> {
-            if(MainPage.getNickName().getValue().length() > 0) {
+            if (MainPage.getNickName().getValue().length() > 0) {
                 MainPage.setColor();
-            }else {
+            } else {
                 MainPage.getNickName().setText("NICK!");
                 MainPage.getNickName().addClickHandler((ClickEvent event3) ->
                         MainPage.getNickName().setText(""));
@@ -23,7 +23,5 @@ public class MySampleApplication implements EntryPoint {
         RootPanel.get("slot2").add(MainPage.getWelcomeBox());
 
 
-//        Board board = new Board(600,600, MainPage.getP1Color());
-//        RootPanel.get("slot2").add(board.getBoard());
     }
 }

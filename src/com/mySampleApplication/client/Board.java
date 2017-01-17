@@ -16,20 +16,20 @@ import java.util.logging.Logger;
 
 /**
  * Class implementing game board
- *
+ * <p>
  * Constructor takes width, height, playerColor
  */
 public class Board {
-    final Canvas canvas ;
+    final Canvas canvas;
     final Context2d context;
 
-    final Brush mouse = new Brush(0,0);
-    final CssColor color ; //= CssColor.make("black");
+    final Brush mouse = new Brush(0, 0);
+    final CssColor color;
 
     public Board(int width, int height, String playerColor) {
 
         // DEBUG
-        Logger log = Logger.getLogger("hwdp") ;
+        Logger log = Logger.getLogger("hwdp");
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
@@ -42,6 +42,7 @@ public class Board {
 
         canvas.setCoordinateSpaceWidth(width);
         canvas.setCoordinateSpaceHeight(height);
+        canvas.setStyleName("canvas");
 
 
         canvas.addMouseDownHandler(new MouseDownHandler() {
@@ -64,10 +65,11 @@ public class Board {
             public void onMouseMove(MouseMoveEvent event) {
                 mouse.prev_x = mouse.x;
                 mouse.prev_y = mouse.y;
-                if(mouse.down && mouse.can_draw) {
+                if (mouse.down && mouse.can_draw) {
                     mouse.x = event.getX();
                     mouse.y = event.getY();
                     context.beginPath();
+                    context.setLineWidth(10);
                     context.setStrokeStyle(color);
                     context.moveTo(mouse.prev_x, mouse.prev_y);
                     context.lineTo(mouse.x, mouse.y);
@@ -96,8 +98,8 @@ public class Board {
         canvas.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-                    context.clearRect(0,0, width,height);
+                if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+                    context.clearRect(0, 0, width, height);
                 }
             }
         });
@@ -114,10 +116,8 @@ public class Board {
 
 /**
  * Brush class
- *
+ * <p>
  * Stores current and previous(used for painting smoother lines) position of cursor.
- *
- *
  */
 
 class Brush {

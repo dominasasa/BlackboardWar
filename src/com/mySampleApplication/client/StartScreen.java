@@ -56,15 +56,15 @@ public class StartScreen {
         setNickname(new Label("CHOOSE YOUR NICKNAME:"));
 
         setNickName(new TextBox());
-        setWelcomeBox(new Grid(3,2));
+        setWelcomeBox(new Grid(3, 2));
 
         getNickName().addKeyDownHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    if(getNickName().getValue().length() > 0) {
+                    if (getNickName().getValue().length() > 0) {
                         setColor();
-                    }else {
+                    } else {
                         getNickName().setText("NICK!");
                         getNickName().addClickHandler((ClickEvent event3) ->
                                 getNickName().setText(""));
@@ -97,7 +97,7 @@ public class StartScreen {
         getWelcomeBox().setWidget(2, 1, getGo());
     }
 
-    private void NewGamePopUpBox(){
+    private void NewGamePopUpBox() {
         getWelcomeBox().clear();
         getNickName().setText("");
         setNewGame(new Button("CREATE\nGAME"));
@@ -117,8 +117,8 @@ public class StartScreen {
         getWelcomeBox().setWidget(1, 1, getJoinGame());
     }
 
-    private void makeP1(){
-        setP1Grid(new Grid(2,2));
+    private void makeP1() {
+        setP1Grid(new Grid(2, 2));
         setP1Nick(new Label("B"));
         setName(new Label("PLAYER NAME: "));
         setP1Ratio(new Label("0"));
@@ -136,7 +136,7 @@ public class StartScreen {
 
     }
 
-    public void setColor(){
+    public void setColor() {
         if (this.getBtnYellow().getValue().equals(true)) {
             Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
             this.setP1Color(Yellow);
@@ -158,7 +158,7 @@ public class StartScreen {
 
         RootPanel.get("tab_p1_text").add(this.getP1Grid());
         this.getJoinGame().addClickHandler((ClickEvent event2) ->
-            RootPanel.get("slot2").remove(this.getWelcomeBox())
+                RootPanel.get("slot2").remove(this.getWelcomeBox())
         );
         this.getNewGame().addClickHandler((ClickEvent event2) -> {
             RootPanel.get("slot2").remove(this.getWelcomeBox());
@@ -251,9 +251,13 @@ public class StartScreen {
         this.p1Ratio = p1Ratio;
     }
 
-    public String getP1Color() { return p1Color.value(); }
+    public String getP1Color() {
+        return p1Color.value();
+    }
 
-    public void setP1Color(CssColor col) { this.p1Color = col; }
+    public void setP1Color(CssColor col) {
+        this.p1Color = col;
+    }
 
     public Label getName() {
         return name;
@@ -295,9 +299,13 @@ public class StartScreen {
         this.p2Ratio = p2Ratio;
     }
 
-    public String getP2Color() { return p2Color.value(); }
+    public String getP2Color() {
+        return p2Color.value();
+    }
 
-    public void setP2Color(CssColor col) { this.p2Color = col; }
+    public void setP2Color(CssColor col) {
+        this.p2Color = col;
+    }
 
     public Grid getWelcomeBox() {
         return welcomeBox;
