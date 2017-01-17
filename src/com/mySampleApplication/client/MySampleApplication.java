@@ -5,6 +5,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import static com.mySampleApplication.client.StartScreen.*;
+
 public class MySampleApplication implements EntryPoint {
 
     public void onModuleLoad() {
@@ -13,14 +15,22 @@ public class MySampleApplication implements EntryPoint {
         MainPage.welcomePopUpBox();
 
         MainPage.getGo().addClickHandler((ClickEvent event) -> {
-            if(MainPage.getBtnYellow().getValue().equals(true))
-                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor("#FFF43A");
-            if(MainPage.getBtnRed().getValue().equals(true))
-                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor("#9E63FF");
-            if(MainPage.getBtnGreen().getValue().equals(true))
-                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor("#33E35A");
-            if(MainPage.getBtnBlue().getValue().equals(true))
-                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor("#33E35A");
+            if(MainPage.getBtnYellow().getValue().equals(true)){
+                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
+                MainPage.setP1Color(Yellow);
+            }
+            if(MainPage.getBtnRed().getValue().equals(true)) {
+                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Red.value());
+                MainPage.setP1Color(Red);
+            }
+            if(MainPage.getBtnGreen().getValue().equals(true)) {
+                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Green.value());
+                MainPage.setP1Color(Green);
+            }
+            if(MainPage.getBtnPurple().getValue().equals(true)) {
+                Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Purple.value());
+                MainPage.setP1Color(Purple);
+            }
             MainPage.makeP1();
             MainPage.NewGamePopUpBox();
 

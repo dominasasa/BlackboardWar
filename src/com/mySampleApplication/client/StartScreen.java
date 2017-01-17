@@ -1,5 +1,6 @@
 package com.mySampleApplication.client;
 
+import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -7,10 +8,16 @@ import com.google.gwt.user.client.ui.*;
  */
 public class StartScreen {
 
+    public static final CssColor Yellow = CssColor.make("#FFF43A");
+    public static final CssColor Red = CssColor.make("#FF4C47");
+    public static final CssColor Green = CssColor.make("#33E35A");
+    public static final CssColor Purple = CssColor.make("#9E63FF");
+
+
     private RadioButton btnYellow;
     private RadioButton btnRed;
     private RadioButton btnGreen;
-    private RadioButton btnBlue;
+    private RadioButton btnPurple;
     private Button go;
     private Button newGame;
     private Button JoinGame;
@@ -21,11 +28,13 @@ public class StartScreen {
 
     private Label p1Nick;
     private Label p1Ratio;
+    private CssColor p1Color;
     private Label name;
     private Label proc;
     private Label ratio;
     private Label p2Nick;
     private Label p2Ratio;
+    private CssColor p2Color;
 
     private TextBox nickName;
     private Grid welcomeBox;
@@ -36,7 +45,7 @@ public class StartScreen {
         getBtnYellow().setValue(true);
         setBtnRed(new RadioButton("colorGroup"));
         setBtnGreen(new RadioButton("colorGroup"));
-        setBtnBlue(new RadioButton("colorGroup"));
+        setBtnPurple(new RadioButton("colorGroup"));
         setGo(new Button("GO!"));
         setGrabChalk(new Label("GRAB CHALK!"));
         setNickname(new Label("CHOOSE YOUR NICKNAME:"));
@@ -46,15 +55,16 @@ public class StartScreen {
 
         setColorBtnGroup(new FlowPanel());
         getColorBtnGroup().add(getBtnYellow());
-        getColorBtnGroup().add(getBtnRed());
         getColorBtnGroup().add(getBtnGreen());
-        getColorBtnGroup().add(getBtnBlue());
+        getColorBtnGroup().add(getBtnPurple());
+        getColorBtnGroup().add(getBtnRed());
+
 
         getGo().setStyleName("button-std");
         getBtnYellow().setStyleName("btn-small");
-        getBtnRed().setStyleName("btn-small");
         getBtnGreen().setStyleName("btn-small");
-        getBtnBlue().setStyleName("btn-small");
+        getBtnPurple().setStyleName("btn-small");
+        getBtnRed().setStyleName("btn-small");
 
         getWelcomeBox().setStyleName("welcome-box");
         getGrabChalk().setStyleName("text_welcome");
@@ -92,6 +102,7 @@ public class StartScreen {
         setProc(new Label("%"));
         setRatio(new Label("RATIO: "));
 
+
         getP1Nick().setText(getNickName().getText().toUpperCase());
 
         getP1Grid().setWidget(0, 0, getName());
@@ -118,12 +129,12 @@ public class StartScreen {
         this.btnGreen = btnGreen;
     }
 
-    public RadioButton getBtnBlue() {
-        return btnBlue;
+    public RadioButton getBtnPurple() {
+        return btnPurple;
     }
 
-    public void setBtnBlue(RadioButton btnBlue) {
-        this.btnBlue = btnBlue;
+    public void setBtnPurple(RadioButton btnPurple) {
+        this.btnPurple = btnPurple;
     }
 
     public Button getGo() {
@@ -182,6 +193,10 @@ public class StartScreen {
         this.p1Ratio = p1Ratio;
     }
 
+    public String getP1Color() { return p1Color.value(); }
+
+    public void setP1Color(CssColor col) { this.p1Color = col; }
+
     public Label getName() {
         return name;
     }
@@ -221,6 +236,10 @@ public class StartScreen {
     public void setP2Ratio(Label p2Ratio) {
         this.p2Ratio = p2Ratio;
     }
+
+    public String getP2Color() { return p2Color.value(); }
+
+    public void setP2Color(CssColor col) { this.p2Color = col; }
 
     public Grid getWelcomeBox() {
         return welcomeBox;
