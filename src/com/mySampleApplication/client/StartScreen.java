@@ -1,6 +1,11 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -8,10 +13,10 @@ import com.google.gwt.user.client.ui.*;
  */
 public class StartScreen {
 
-    public static final CssColor Yellow = CssColor.make("#FFF43A");
-    public static final CssColor Red = CssColor.make("#FF4C47");
-    public static final CssColor Green = CssColor.make("#33E35A");
-    public static final CssColor Purple = CssColor.make("#9E63FF");
+    private static final CssColor Yellow = CssColor.make("#FFF43A");
+    private static final CssColor Red = CssColor.make("#FF4C47");
+    private static final CssColor Green = CssColor.make("#33E35A");
+    private static final CssColor Purple = CssColor.make("#9E63FF");
 
 
     private RadioButton btnYellow;
@@ -53,6 +58,20 @@ public class StartScreen {
         setNickName(new TextBox());
         setWelcomeBox(new Grid(3,2));
 
+        getNickName().addKeyDownHandler(new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+                    if(getNickName().getValue().length() > 0) {
+                        setColor();
+                    }else {
+                        getNickName().setText("NICK!");
+                        getNickName().addClickHandler((ClickEvent event3) ->
+                                getNickName().setText(""));
+                    }
+                }
+            }
+        });
         setColorBtnGroup(new FlowPanel());
         getColorBtnGroup().add(getBtnYellow());
         getColorBtnGroup().add(getBtnGreen());
@@ -78,7 +97,7 @@ public class StartScreen {
         getWelcomeBox().setWidget(2, 1, getGo());
     }
 
-    public void NewGamePopUpBox(){
+    private void NewGamePopUpBox(){
         getWelcomeBox().clear();
         getNickName().setText("");
         setNewGame(new Button("CREATE\nGAME"));
@@ -86,6 +105,7 @@ public class StartScreen {
         setJoinGame(new Button("JOIN\nGAME"));
 
         getJoinGame().setStyleName("button-std");
+        getJoinGame().setEnabled(false);
         getNewGame().setStyleName("button-std");
         getWelcomeBox().resizeRows(2);
         getWelcomeBox().setWidget(0, 0, getNickname());
@@ -94,7 +114,7 @@ public class StartScreen {
         getWelcomeBox().setWidget(1, 1, getJoinGame());
     }
 
-    public void makeP1(){
+    private void makeP1(){
         setP1Grid(new Grid(2,2));
         setP1Nick(new Label("B"));
         setName(new Label("PLAYER NAME: "));
@@ -111,6 +131,36 @@ public class StartScreen {
         getP1Grid().setWidget(1, 1, getP1Ratio());
         //p1Grid.setWidget(1, 1, proc);
 
+    }
+
+    public void setColor(){
+        if (this.getBtnYellow().getValue().equals(true)) {
+            Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
+            this.setP1Color(Yellow);
+        }
+        if (this.getBtnRed().getValue().equals(true)) {
+            Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Red.value());
+            this.setP1Color(Red);
+        }
+        if (this.getBtnGreen().getValue().equals(true)) {
+            Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Green.value());
+            this.setP1Color(Green);
+        }
+        if (this.getBtnPurple().getValue().equals(true)) {
+            Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Purple.value());
+            this.setP1Color(Purple);
+        }
+        this.makeP1();
+        this.NewGamePopUpBox();
+
+        RootPanel.get("tab_p1_text").add(this.getP1Grid());
+        this.getJoinGame().addClickHandler((ClickEvent event2) ->
+
+                RootPanel.get("slot2").remove(this.getWelcomeBox())
+        );
+        this.getNewGame().addClickHandler((ClickEvent event2) ->
+                RootPanel.get("slot2").remove(this.getWelcomeBox())
+        );
     }
 
     public TextBox getNickName() {
