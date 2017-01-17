@@ -21,5 +21,8 @@ public class MySampleApplication implements EntryPoint {
             }
         });
         RootPanel.get("slot2").add(MainPage.getWelcomeBox());
+
+        Board board = new Board(600,600);
+        RootPanel.get("slot2").add(board.getBoard());
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact name="BlackboardWar:GWT">
+    <output-path>$PROJECT_DIR$/out/artifacts/BlackboardWar_GWT</output-path>
+    <root id="root">
+      <element id="gwt-compiler-output" facet="BlackboardWar/gwt/GWT" />
+    </root>
+  </artifact>
+</component>
