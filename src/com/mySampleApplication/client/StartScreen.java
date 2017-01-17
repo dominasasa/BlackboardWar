@@ -104,6 +104,9 @@ public class StartScreen {
         getNickname().setText("ENTER GAME ID TO JOIN:");
         setJoinGame(new Button("JOIN\nGAME"));
 
+        setNickName(new TextBox());
+        getNickName().setStyleName("text_welcome_input");
+
         getJoinGame().setStyleName("button-std");
         getJoinGame().setEnabled(false);
         getNewGame().setStyleName("button-std");
