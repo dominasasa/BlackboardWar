@@ -71,6 +71,7 @@ public class Board {
                     context.lineTo(mouse.x, mouse.y);
                     context.closePath();
                     context.stroke();
+                    log.log(Level.INFO, "drawing");
                 }
 
                 //DEBUG
@@ -121,6 +122,6 @@ class Brush {
         this.prev_x = x;
         this.prev_y = y;
         down = false;
-        can_draw = false;
+        can_draw = true;
     }
 }
