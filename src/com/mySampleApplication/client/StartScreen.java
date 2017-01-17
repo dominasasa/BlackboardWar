@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -17,7 +18,6 @@ public class StartScreen {
     private static final CssColor Red = CssColor.make("#FF4C47");
     private static final CssColor Green = CssColor.make("#33E35A");
     private static final CssColor Purple = CssColor.make("#9E63FF");
-
 
     private RadioButton btnYellow;
     private RadioButton btnRed;
@@ -40,6 +40,14 @@ public class StartScreen {
     private Label p2Nick;
     private Label p2Ratio;
     private CssColor p2Color;
+
+    private Grid p2Grid;
+
+    private Label gameId;
+    private Label gameId_var;
+    private Label timeLeft;
+    private Label timeLeft_var;
+    private Grid middleMenuGrid;
 
     private TextBox nickName;
     private Grid welcomeBox;
@@ -136,6 +144,26 @@ public class StartScreen {
 
     }
 
+    public void middleMenu(){
+        setGameId(new Label("GAME ID:"));
+        setGameId_var( new Label());
+        setTimeLeft(new Label("TIME LEFT:"));
+        setTimeLeft_var( new Label());
+
+        setMiddleMenuGrid( new Grid(2, 2));
+
+        getGameId().setStyleName("text_welcome");
+        getGameId_var().setStyleName("text_welcome");
+        getTimeLeft_var().setStyleName("text_welcome");
+        getTimeLeft().setStyleName("text_welcome");
+
+        getMiddleMenuGrid().setWidget(0,0, gameId);
+        getMiddleMenuGrid().setWidget(0,1, gameId_var);
+        getMiddleMenuGrid().setWidget(1,0, timeLeft);
+        getMiddleMenuGrid().setWidget(1,1, timeLeft_var);
+
+    }
+
     public void setColor(){
         if (this.getBtnYellow().getValue().equals(true)) {
             Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
@@ -155,7 +183,11 @@ public class StartScreen {
         }
         this.makeP1();
         this.NewGamePopUpBox();
+        this.middleMenu();
 
+        this.setGameId_var(1);
+
+        RootPanel.get("tab_mid_menu").add(this.getMiddleMenuGrid());
         RootPanel.get("tab_p1_text").add(this.getP1Grid());
         this.getJoinGame().addClickHandler((ClickEvent event2) ->
 
@@ -333,5 +365,22 @@ public class StartScreen {
     public void setJoinGame(Button joinGame) {
         JoinGame = joinGame;
     }
+
+    public void setGameId(Label gameID){ this.gameId = gameID; }
+    public Label getGameId() {return gameId;}
+
+    public void setGameId_var(Label gameId_Var){ this.gameId_var = gameId_Var; }
+    public void setGameId_var(int gameId_Var) { this.gameId_var.setText(NumberFormat.getFormat("##").format(gameId_Var)); }
+    public Label getGameId_var() {return gameId_var;}
+
+    public void setTimeLeft(Label TimeLeft){ this.timeLeft = TimeLeft; }
+    public Label getTimeLeft(){return timeLeft;}
+
+    public void setTimeLeft_var(Label TimeLeft){ this.timeLeft_var = TimeLeft; }
+    public Label getTimeLeft_var() {return timeLeft_var;}
+
+    public void setMiddleMenuGrid(Grid MMGrid) {this.middleMenuGrid = MMGrid; }
+    public Grid getMiddleMenuGrid() {return middleMenuGrid; }
+
 }
 

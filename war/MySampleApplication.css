@@ -39,7 +39,12 @@ body, td, a, div, .p {
     height: 140px;
     background: #FCF4FC;
 }
-
+.tab_mid_menu table{
+    padding-left: 30px;
+    padding-top: 30px;
+    font-weight: 900;
+    height: 70%;
+}
 .tab_board{
     width: 600px;
     height: 600px;
@@ -155,3 +160,4 @@ input[type=radio]:checked + label{
     font-weight: 700;
     text-transform: uppercase;
 }
+
