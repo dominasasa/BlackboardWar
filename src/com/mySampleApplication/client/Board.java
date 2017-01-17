@@ -16,21 +16,24 @@ import java.util.logging.Logger;
 
 /**
  * Class implementing game board
+ *
+ * Constructor takes width, height, playerColor
  */
 public class Board {
     final Canvas canvas ;
     final Context2d context;
 
     final Brush mouse = new Brush(0,0);
-    final CssColor color = CssColor.make("black");
+    final CssColor color ; //= CssColor.make("black");
 
-    public Board(int width, int height) {
+    public Board(int width, int height, String playerColor) {
 
         // DEBUG
         Logger log = Logger.getLogger("hwdp") ;
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
+        color = CssColor.make(playerColor);
 
         /*
         setSize() takes String as parameters, not int
@@ -39,7 +42,6 @@ public class Board {
 
         canvas.setCoordinateSpaceWidth(width);
         canvas.setCoordinateSpaceHeight(height);
-
 
 
         canvas.addMouseDownHandler(new MouseDownHandler() {
@@ -66,11 +68,13 @@ public class Board {
                     mouse.x = event.getX();
                     mouse.y = event.getY();
                     context.beginPath();
-                    context.setFillStyle(color);
+                    context.setStrokeStyle(color);
                     context.moveTo(mouse.prev_x, mouse.prev_y);
                     context.lineTo(mouse.x, mouse.y);
                     context.closePath();
                     context.stroke();
+
+                    //DEBUG
                     log.log(Level.INFO, "drawing");
                 }
 
@@ -99,6 +103,9 @@ public class Board {
         });
     }
 
+    /*
+    Returns board canvas
+     */
     Canvas getBoard() {
         return canvas;
     }
@@ -109,6 +116,7 @@ public class Board {
  * Brush class
  *
  * Stores current and previous(used for painting smoother lines) position of cursor.
+ *
  *
  */
 

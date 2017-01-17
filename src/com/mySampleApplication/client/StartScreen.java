@@ -158,12 +158,17 @@ public class StartScreen {
 
         RootPanel.get("tab_p1_text").add(this.getP1Grid());
         this.getJoinGame().addClickHandler((ClickEvent event2) ->
+            RootPanel.get("slot2").remove(this.getWelcomeBox())
+        );
+        this.getNewGame().addClickHandler((ClickEvent event2) -> {
+            RootPanel.get("slot2").remove(this.getWelcomeBox());
 
-                RootPanel.get("slot2").remove(this.getWelcomeBox())
-        );
-        this.getNewGame().addClickHandler((ClickEvent event2) ->
-                RootPanel.get("slot2").remove(this.getWelcomeBox())
-        );
+            /*
+            Creates new board and adds to RootPanel
+             */
+            Board board = new Board(600, 600, this.getP1Color());
+            RootPanel.get("slot2").add(board.getBoard());
+        });
     }
 
     public TextBox getNickName() {
