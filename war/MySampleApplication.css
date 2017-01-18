@@ -12,9 +12,10 @@ body, td, a, div, .p {
     font-size: 16px;
 }
 
-.canvas {
-    background-color: transparent;
-    border: none;
+canvas {
+    background: transparent;
+    cursor: pointer;
+    outline: none;
 }
 
 .tab_main {
@@ -179,4 +180,5 @@ input[type=radio]:checked + label {
     padding-left: 10px;
     font-weight: 700;
     text-transform: uppercase;
+    outline: none;
 }

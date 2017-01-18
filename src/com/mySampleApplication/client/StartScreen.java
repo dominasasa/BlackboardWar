@@ -7,6 +7,10 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
+
+import java.awt.*;
 
 /**
  * Created by odomi on 16.01.2017.
@@ -121,7 +125,7 @@ public class StartScreen {
         setP1Grid(new Grid(2, 2));
         setP1Nick(new Label("B"));
         setName(new Label("PLAYER NAME: "));
-        setP1Ratio(new Label("0"));
+
         setProc(new Label("%"));
         setRatio(new Label("RATIO: "));
 
@@ -157,18 +161,17 @@ public class StartScreen {
         this.NewGamePopUpBox();
 
         RootPanel.get("tab_p1_text").add(this.getP1Grid());
-        this.getJoinGame().addClickHandler((ClickEvent event2) ->
-                RootPanel.get("slot2").remove(this.getWelcomeBox())
+        /*this.getJoinGame().addClickHandler((ClickEvent event2) ->
+            RootPanel.get("slot2").remove(this.getWelcomeBox())
         );
         this.getNewGame().addClickHandler((ClickEvent event2) -> {
-            RootPanel.get("slot2").remove(this.getWelcomeBox());
+            RootPanel.get("slot2").remove(this.getWelcomeBox());*/
 
             /*
             Creates new board and adds to RootPanel
              */
-            Board board = new Board(600, 600, this.getP1Color());
-            RootPanel.get("slot2").add(board.getBoard());
-        });
+           // Board board = new Board(600, 600, this.getP1Color());
+            //RootPanel.get("slot2").add(board.getBoard());
     }
 
     public TextBox getNickName() {
