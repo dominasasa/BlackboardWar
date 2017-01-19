@@ -13,6 +13,7 @@
 - [ ] Zamiana kolejności popupów (Najpierw twórz/dołącz a potem nickaname/kolor
 - [ ] Poprawka do pędzla który się za rzadko updatuje krzaczy robi proste line zamiast eleganckich zaokrąglonych
 - [ ] Play again pop up box dodać
+- [ ] UI drugiego gracza
 
 ##Dokumentaca
 - [ ] opicać ideeeee
