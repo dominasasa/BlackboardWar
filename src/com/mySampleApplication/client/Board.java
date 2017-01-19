@@ -68,11 +68,12 @@ public class Board {
                 mouse.x = event.getX();
                 mouse.y = event.getY();
                 context.beginPath();
-                context.setLineWidth(10);
-                context.setStrokeStyle(color);
                 context.moveTo(mouse.prev_x, mouse.prev_y);
-                context.lineTo(mouse.x, mouse.y);
-                context.closePath();
+                context.setLineCap("round");
+                context.setFillStyle(color);
+                context.setLineWidth(5);
+                context.lineTo(event.getX(), event.getY());
+                context.setStrokeStyle(color);
                 context.stroke();
 
                 covered(Ratiostream);
@@ -107,7 +108,7 @@ public class Board {
                 if (canvasPixelArray.get(i) > 50) pixels++;
             }
             pixels = pixels / 3600;
-            la.setText(NumberFormat.getFormat("###").format(pixels));
+            la.setText(NumberFormat.getFormat("###").format(pixels) + "%");
         }
     }
     /*
