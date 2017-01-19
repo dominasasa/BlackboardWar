@@ -21,4 +21,3 @@
 
 ##Inne
 - [ ] Weronika prosiła o możlwość powięszenia pędzla w zamian za mikropłatność (mówiła o 10zł)
-[ ] Fix issue with rendering
