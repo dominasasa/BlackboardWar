@@ -27,7 +27,7 @@ public class Board {
     final Canvas canvas;
     final Context2d context;
 
-    final Brush mouse = new Brush(0,0);
+    final Brush mouse;
     private CssColor color ; //= CssColor.make("black");
     private int areaUpdates = 0;
 
@@ -35,6 +35,8 @@ public class Board {
 
         // DEBUG
         Logger log = Logger.getLogger("hw") ;
+
+        mouse = new Brush(0,0, CssColor.make(playerColor));
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
@@ -133,12 +135,15 @@ public class Board {
 class Brush {
     public int x, y, prev_x, prev_y;
     public boolean down, can_draw;
+    public CssColor color;
 
-    Brush(int x, int y) {
+    Brush(int x, int y, CssColor color) {
         this.x = x;
         this.y = y;
         this.prev_x = x;
         this.prev_y = y;
+        this.color = color;
+
         down = false;
         can_draw = true;
     }

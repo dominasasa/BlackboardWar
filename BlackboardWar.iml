@@ -5,7 +5,7 @@
       <configuration>
         <setting name="compilerMaxHeapSize" value="1024" />
         <setting name="gwtScriptOutputStyle" value="DETAILED" />
-        <setting name="gwtSdkUrl" value="file://C:/Program Files (x86)/JetBrains/gwt-2.8.0" />
+        <setting name="gwtSdkUrl" value="file://$USER_HOME$/Downloads/gwt-2.8.0/gwt-2.8.0" />
         <setting name="webFacet" value="Web" />
       </configuration>
     </facet>
@@ -21,7 +21,6 @@
       </configuration>
     </facet>
   </component>
-
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
