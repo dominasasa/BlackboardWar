@@ -99,6 +99,27 @@ public class StartScreen {
         getWelcomeBox().setWidget(1, 0, getGrabChalk());
         getWelcomeBox().setWidget(2, 0, getColorBtnGroup());
         getWelcomeBox().setWidget(2, 1, getGo());
+
+
+        // Moved from main class
+
+        go.addClickHandler((ClickEvent event) -> {
+            if (this.getNickName().getValue().length() > 0) {
+                this.setColor();
+                Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio());
+                board.setColor(this.getP1Color());
+
+                newGame.addClickHandler((ClickEvent event2) -> {
+                    RootPanel.get("slot2").remove(this.getWelcomeBox());
+                    RootPanel.get("slot2").add(board.getBoard());
+                });
+
+            } else {
+                this.getNickName().setText("NICK!");
+                this.getNickName().addClickHandler((ClickEvent event3) ->
+                        this.getNickName().setText(""));
+            }
+        });
     }
 
     private void NewGamePopUpBox() {
@@ -349,5 +370,7 @@ public class StartScreen {
     public void setJoinGame(Button joinGame) {
         JoinGame = joinGame;
     }
+
+
 }
 

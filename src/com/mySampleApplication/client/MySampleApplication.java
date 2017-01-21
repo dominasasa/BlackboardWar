@@ -12,24 +12,9 @@ public class MySampleApplication implements EntryPoint {
         StartScreen MainPage = new StartScreen();
         MainPage.welcomePopUpBox();
         MainPage.setP1Ratio(new Label("0"));
-        Board board = new Board(600,600, MainPage.getP1Color(), MainPage.getP1Ratio());
+       // Board board = new Board(600,600, MainPage.getP1Color(), MainPage.getP1Ratio());
 
-        MainPage.getGo().addClickHandler((ClickEvent event) -> {
-            if (MainPage.getNickName().getValue().length() > 0) {
-                MainPage.setColor();
-                board.setColor(MainPage.getP1Color());
 
-                MainPage.getNewGame().addClickHandler((ClickEvent event2) -> {
-                    RootPanel.get("slot2").remove(MainPage.getWelcomeBox());
-                    RootPanel.get("slot2").add(board.getBoard());
-                });
-
-            }else {
-                MainPage.getNickName().setText("NICK!");
-                MainPage.getNickName().addClickHandler((ClickEvent event3) ->
-                        MainPage.getNickName().setText(""));
-            }
-        });
         RootPanel.get("slot2").add(MainPage.getWelcomeBox());
 
 

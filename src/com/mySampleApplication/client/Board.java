@@ -132,7 +132,7 @@ public class Board {
  *
  */
 
-class Brush {
+class Brush  {
     public int x, y, prev_x, prev_y;
     public boolean down, can_draw;
     public CssColor color;
@@ -146,5 +146,17 @@ class Brush {
 
         down = false;
         can_draw = true;
+    }
+
+    /**
+     *Serializes Brush to String
+     */
+    public String serialize() {
+        return this.x + "," +
+               this.y + "," +
+               this.prev_x + "," +
+               this.prev_y + "," +
+               this.color + ",";
+
     }
 }

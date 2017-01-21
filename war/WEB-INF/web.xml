@@ -7,8 +7,16 @@
         <servlet-name>com.mySampleApplication.MySampleApplication MySampleApplicationService</servlet-name>
         <servlet-class>com.mySampleApplication.server.MySampleApplicationServiceImpl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>com.mySampleApplication.MySampleApplication GameServer</servlet-name>
+        <servlet-class>com.mySampleApplication.server.GameServerImpl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>com.mySampleApplication.MySampleApplication MySampleApplicationService</servlet-name>
         <url-pattern>/MySampleApplication/MySampleApplicationService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>com.mySampleApplication.MySampleApplication GameServer</servlet-name>
+        <url-pattern>/MySampleApplication/GameServer</url-pattern>
     </servlet-mapping>
 </web-app>
