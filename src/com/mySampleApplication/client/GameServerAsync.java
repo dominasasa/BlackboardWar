@@ -9,16 +9,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GameServerAsync {
 
 
-    void sendBrushPosition(String brush, AsyncCallback<Void> async);
 
+    void createSession(String ID, AsyncCallback<Player> async);
 
-    void getBrushPosition(AsyncCallback<String> async);
+    void sendPlayer(Player player, AsyncCallback<Void> async);
 
-    void createSession(String ID, AsyncCallback<Boolean> async);
-
-    void sendBrush(Brush brush, AsyncCallback<Void> async);
-
-    void getBrush(AsyncCallback<Brush> async);
+    void getPlayer(String sessionID,AsyncCallback<Player[]> async);
 }
 
 

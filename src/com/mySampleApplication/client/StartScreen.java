@@ -111,15 +111,13 @@ public class StartScreen {
         go.addClickHandler((ClickEvent event) -> {
             if (this.getSessionID().getValue().length() > 0) {
                 this.setColor();
-                Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio());
-                board.setColor(this.getP1Color());
 
                 // Session creation
                 GameSessionCallback sessionCallback = new GameSessionCallback(this);
 
                 // New game button
                 newGame.addClickHandler((ClickEvent event2) -> {
-                    // Check 
+                    // Check is sessionId is valid
                     if(this.getSessionID().getText().isEmpty()) {
                         this.getSessionID().setText("Not valid ID!");
                     } else {
@@ -137,12 +135,21 @@ public class StartScreen {
 
     
     // 
-    public void spawnBoard() {
-        Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio());
+    public void spawnBoard(String sessionID, Player player) {
+        Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
+
 
         RootPanel.get("slot2").remove(this.getWelcomeBox());
         RootPanel.get("slot2").add(board.getBoard());
+
+        Timer run = new Timer() {
+            @Override
+            public void run() {
+                board.run();
+            }
+        };
+        run.scheduleRepeating(5);
     }
 
     private void NewGamePopUpBox() {

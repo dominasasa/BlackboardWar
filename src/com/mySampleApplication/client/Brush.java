@@ -18,8 +18,10 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class Brush implements IsSerializable {
     public int x, y, prev_x, prev_y;
     public boolean down, can_draw;
+
     public String color;
 
+    // Empty constructor for serialization
     Brush() {
         this.x = 0;
         this.y = 0;
@@ -42,16 +44,4 @@ public class Brush implements IsSerializable {
         down = false;
         can_draw = true;
     }
-
-    /**
-     *Serializes Brush to String (temporary method)
-     */
-//    public String serialize() {
-//        return this.x + "," +
-//                this.y + "," +
-//                this.prev_x + "," +
-//                this.prev_y + "," +
-//                this.color + ",";
-//
-//    }
 }
