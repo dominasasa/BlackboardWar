@@ -15,6 +15,10 @@ public interface GameServerAsync {
     void getBrushPosition(AsyncCallback<String> async);
 
     void createSession(String ID, AsyncCallback<Boolean> async);
+
+    void sendBrush(Brush brush, AsyncCallback<Void> async);
+
+    void getBrush(AsyncCallback<Brush> async);
 }
 
 

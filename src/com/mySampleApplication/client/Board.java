@@ -7,6 +7,7 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 
 
@@ -36,7 +37,7 @@ public class Board {
         // DEBUG
         Logger log = Logger.getLogger("hw") ;
 
-        mouse = new Brush(0,0, CssColor.make(playerColor));
+        mouse = new Brush(0,0, playerColor);
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
@@ -77,6 +78,8 @@ public class Board {
                 context.lineTo(event.getX(), event.getY());
                 context.setStrokeStyle(color);
                 context.stroke();
+
+
 
                 covered(Ratiostream);
 
@@ -122,41 +125,4 @@ public class Board {
 
     public void setColor(String col) { this.color = CssColor.make(col); }
 
-}
-
-/**
- * Brush class
- * <p>
- * Stores current and previous(used for painting smoother lines) position of cursor.
- *
- *
- */
-
-class Brush  {
-    public int x, y, prev_x, prev_y;
-    public boolean down, can_draw;
-    public CssColor color;
-
-    Brush(int x, int y, CssColor color) {
-        this.x = x;
-        this.y = y;
-        this.prev_x = x;
-        this.prev_y = y;
-        this.color = color;
-
-        down = false;
-        can_draw = true;
-    }
-
-    /**
-     *Serializes Brush to String
-     */
-    public String serialize() {
-        return this.x + "," +
-               this.y + "," +
-               this.prev_x + "," +
-               this.prev_y + "," +
-               this.color + ",";
-
-    }
 }

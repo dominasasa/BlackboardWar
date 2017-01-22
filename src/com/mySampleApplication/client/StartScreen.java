@@ -1,11 +1,14 @@
 package com.mySampleApplication.client;
 
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.*;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -48,6 +51,8 @@ public class StartScreen {
     private TextBox nickName;
     private Grid welcomeBox;
     private Grid p1Grid;
+    
+    
 
     public void welcomePopUpBox() {
         setBtnYellow(new RadioButton("colorGroup"));
@@ -59,19 +64,19 @@ public class StartScreen {
         setGrabChalk(new Label("GRAB CHALK!"));
         setNickname(new Label("CHOOSE YOUR NICKNAME:"));
 
-        setNickName(new TextBox());
+        setSessionID(new TextBox());
         setWelcomeBox(new Grid(3, 2));
 
-        getNickName().addKeyDownHandler(new KeyDownHandler() {
+        getSessionID().addKeyDownHandler(new KeyDownHandler() {
             @Override
             public void onKeyDown(KeyDownEvent event) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    if (getNickName().getValue().length() > 0) {
+                    if (getSessionID().getValue().length() > 0) {
                         setColor();
                     } else {
-                        getNickName().setText("NICK!");
-                        getNickName().addClickHandler((ClickEvent event3) ->
-                                getNickName().setText(""));
+                        getSessionID().setText("NICK!");
+                        getSessionID().addClickHandler((ClickEvent event3) ->
+                                getSessionID().setText(""));
                     }
                 }
             }
@@ -92,10 +97,10 @@ public class StartScreen {
         getWelcomeBox().setStyleName("welcome-box");
         getGrabChalk().setStyleName("text_welcome");
         getNickname().setStyleName("text_welcome");
-        getNickName().setStyleName("text_welcome_input");
+        getSessionID().setStyleName("text_welcome_input");
 
         getWelcomeBox().setWidget(0, 0, getNickname());
-        getWelcomeBox().setWidget(0, 1, getNickName());
+        getWelcomeBox().setWidget(0, 1, getSessionID());
         getWelcomeBox().setWidget(1, 0, getGrabChalk());
         getWelcomeBox().setWidget(2, 0, getColorBtnGroup());
         getWelcomeBox().setWidget(2, 1, getGo());
@@ -104,40 +109,58 @@ public class StartScreen {
         // Moved from main class
 
         go.addClickHandler((ClickEvent event) -> {
-            if (this.getNickName().getValue().length() > 0) {
+            if (this.getSessionID().getValue().length() > 0) {
                 this.setColor();
                 Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio());
                 board.setColor(this.getP1Color());
 
+                // Session creation
+                GameSessionCallback sessionCallback = new GameSessionCallback(this);
+
+                // New game button
                 newGame.addClickHandler((ClickEvent event2) -> {
-                    RootPanel.get("slot2").remove(this.getWelcomeBox());
-                    RootPanel.get("slot2").add(board.getBoard());
+                    // Check 
+                    if(this.getSessionID().getText().isEmpty()) {
+                        this.getSessionID().setText("Not valid ID!");
+                    } else {
+                        GameServer.App.getInstance().createSession(this.getSessionID().getText(), sessionCallback);
+                    }
                 });
 
             } else {
-                this.getNickName().setText("NICK!");
-                this.getNickName().addClickHandler((ClickEvent event3) ->
-                        this.getNickName().setText(""));
+                this.getSessionID().setText("NICK!");
+                this.getSessionID().addClickHandler((ClickEvent event3) ->
+                        this.getSessionID().setText(""));
             }
         });
     }
 
+    
+    // 
+    public void spawnBoard() {
+        Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio());
+        board.setColor(this.getP1Color());
+
+        RootPanel.get("slot2").remove(this.getWelcomeBox());
+        RootPanel.get("slot2").add(board.getBoard());
+    }
+
     private void NewGamePopUpBox() {
         getWelcomeBox().clear();
-        getNickName().setText("");
+        getSessionID().setText("");
         setNewGame(new Button("CREATE\nGAME"));
         getNickname().setText("ENTER GAME ID TO JOIN:");
         setJoinGame(new Button("JOIN\nGAME"));
 
-        setNickName(new TextBox());
-        getNickName().setStyleName("text_welcome_input");
+        setSessionID(new TextBox());
+        getSessionID().setStyleName("text_welcome_input");
 
         getJoinGame().setStyleName("button-std");
         getJoinGame().setEnabled(false);
         getNewGame().setStyleName("button-std");
         getWelcomeBox().resizeRows(2);
         getWelcomeBox().setWidget(0, 0, getNickname());
-        getWelcomeBox().setWidget(0, 1, getNickName());
+        getWelcomeBox().setWidget(0, 1, getSessionID());
         getWelcomeBox().setWidget(1, 0, getNewGame());
         getWelcomeBox().setWidget(1, 1, getJoinGame());
     }
@@ -151,7 +174,7 @@ public class StartScreen {
         setRatio(new Label("RATIO: "));
 
 
-        getP1Nick().setText(getNickName().getText().toUpperCase());
+        getP1Nick().setText(getSessionID().getText().toUpperCase());
 
         getP1Grid().setWidget(0, 0, getName());
         getP1Grid().setWidget(0, 1, getP1Nick());
@@ -195,11 +218,11 @@ public class StartScreen {
             //RootPanel.get("slot2").add(board.getBoard());
     }
 
-    public TextBox getNickName() {
+    public TextBox getSessionID() {
         return nickName;
     }
 
-    public void setNickName(TextBox nickName) {
+    public void setSessionID(TextBox nickName) {
         this.nickName = nickName;
     }
 

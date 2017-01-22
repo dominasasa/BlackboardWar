@@ -12,6 +12,9 @@ public interface GameServer extends RemoteService {
 
     Boolean createSession(String ID);
 
+    void sendBrush(Brush brush);
+    Brush getBrush();
+
     void sendBrushPosition(String brush);
     String getBrushPosition();
 

@@ -12,9 +12,6 @@ public class MySampleApplication implements EntryPoint {
         StartScreen MainPage = new StartScreen();
         MainPage.welcomePopUpBox();
         MainPage.setP1Ratio(new Label("0"));
-       // Board board = new Board(600,600, MainPage.getP1Color(), MainPage.getP1Ratio());
-
-
         RootPanel.get("slot2").add(MainPage.getWelcomeBox());
 
 
