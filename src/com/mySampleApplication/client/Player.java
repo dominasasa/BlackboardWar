@@ -14,6 +14,7 @@ public class Player implements IsSerializable {
     public Order order;
     public String sessionID;
 
+    // Empty constructor for serialization
     public Player() {}
 
     public Player(Order order) {

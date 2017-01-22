@@ -31,7 +31,7 @@ public class Board {
     public final Canvas canvas;
     public final Context2d context;
 
-    public final Player player, otherPlayer;
+    public final Player player;
     public CssColor color;
     private int areaUpdates = 0;
 
@@ -48,8 +48,6 @@ public class Board {
         this.player = player;
         player.brush = new Brush(0, 0, playerColor);
 
-        otherPlayer = new Player();
-
         this.sessionID = sessionID;
 
         // Set sessionId in player brush
@@ -65,12 +63,9 @@ public class Board {
         canvas.setCoordinateSpaceWidth(width);
         canvas.setCoordinateSpaceHeight(height);
 
-
         //Callbacks
         sendPlayerCallback = new SendPlayerCallback();
         getPlayerCallback = new GetPlayerCallback();
-
-        // GameServer.App.getInstance().getPlayer(sessionID, getPlayerCallback);
 
         canvas.addMouseDownHandler(event -> {
             player.brush.down = true;
@@ -82,7 +77,7 @@ public class Board {
         });
 
         /*
-        Actual painting
+        Update player position
          */
         canvas.addMouseMoveHandler(event -> {
             player.brush.prev_x = player.brush.x;
@@ -91,7 +86,7 @@ public class Board {
                 player.brush.x = event.getX();
                 player.brush.y = event.getY();
 
-                // Update brush position
+                // Update current player position
                 GameServer.App.getInstance().sendPlayer(player, sendPlayerCallback);
                 //covered(Ratiostream);
 
@@ -137,7 +132,7 @@ public class Board {
         return canvas;
     }
 
-    void paint(Brush brush) {
+    void draw(Brush brush) {
 //        if (brush.can_draw && brush.down) {
             Board.this.context.beginPath();
             Board.this.context.moveTo(brush.prev_x, brush.prev_y);
@@ -171,8 +166,8 @@ public class Board {
 
         @Override
         public void onSuccess(Player[] result) {
-            Board.this.paint(result[0].brush);
-            Board.this.paint(result[1].brush);
+            Board.this.draw(result[0].brush);
+            Board.this.draw(result[1].brush);
         }
     }
 

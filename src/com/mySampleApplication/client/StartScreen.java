@@ -134,7 +134,7 @@ public class StartScreen {
     }
 
     
-    // 
+    // Creates new game board and adds to RootPanel
     public void spawnBoard(String sessionID, Player player) {
         Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
@@ -143,6 +143,7 @@ public class StartScreen {
         RootPanel.get("slot2").remove(this.getWelcomeBox());
         RootPanel.get("slot2").add(board.getBoard());
 
+        // run() updates state of both brushes
         Timer run = new Timer() {
             @Override
             public void run() {

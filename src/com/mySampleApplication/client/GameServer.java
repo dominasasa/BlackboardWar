@@ -15,9 +15,6 @@ public interface GameServer extends RemoteService {
     void sendPlayer(Player player);
     Player[] getPlayer(String sessionID);
 
-
-
-
     /**
      * Utility/Convenience class.
      * Use GameServer.App.getInstance() to access static instance of GameServerAsync
