@@ -37,6 +37,8 @@ public class Board {
 
     public String sessionID;
 
+    private Label RatioS;
+
     public SendPlayerCallback sendPlayerCallback;
     public GetPlayerCallback getPlayerCallback;
 
@@ -52,6 +54,8 @@ public class Board {
 
         // Set sessionId in player brush
         player.sessionID = this.sessionID;
+
+        setRatioS(Ratiostream);
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
@@ -88,8 +92,8 @@ public class Board {
 
                 // Update current player position
                 GameServer.App.getInstance().sendPlayer(player, sendPlayerCallback);
-                //covered(Ratiostream);
-
+                GameServer.App.getInstance().getPlayer(sessionID, getPlayerCallback);
+                covered();
                 //DEBUG
                 log.log(Level.INFO, "drawing");
             }
@@ -110,9 +114,8 @@ public class Board {
         });
     }
 
-    private void covered(Label la) {
-
-        if (areaUpdates++ % 10 != 0) {
+    private void covered() {
+        if (areaUpdates++ % 100 == 0) {
             int pixels = 0;
             ImageData imageData = context.getImageData(0, 0, 600, 600);
 
@@ -121,19 +124,27 @@ public class Board {
                 if (canvasPixelArray.get(i) > 50) pixels++;
             }
             pixels = pixels / 3600;
-            la.setText(NumberFormat.getFormat("###").format(pixels) + "%");
+            getRatioS().setText(NumberFormat.getFormat("###").format(pixels) + "%");
         }
     }
 
+    public Label getRatioS() {
+        return RatioS;
+    }
+
+    public void setRatioS(Label ratioS) {
+        RatioS = ratioS;
+    }
+
     /*
-    Returns board canvas
-     */
+        Returns board canvas
+         */
     Canvas getBoard() {
         return canvas;
     }
 
     void draw(Brush brush) {
-//        if (brush.can_draw && brush.down) {
+        //if (brush.can_draw) {
             Board.this.context.beginPath();
             Board.this.context.moveTo(brush.prev_x, brush.prev_y);
             Board.this.context.setLineCap("round");
@@ -142,7 +153,7 @@ public class Board {
             Board.this.context.lineTo(brush.x, brush.y);
             Board.this.context.setStrokeStyle(brush.color);
             Board.this.context.stroke();
-//        }
+        //}
     }
 
     void run() {

@@ -10,7 +10,7 @@ public class MySampleApplication implements EntryPoint {
     public void onModuleLoad() {
 
         StartScreen MainPage = new StartScreen();
-        MainPage.welcomePopUpBox();
+        MainPage.StartScreen();
         MainPage.setP1Ratio(new Label("0"));
         RootPanel.get("slot2").add(MainPage.getWelcomeBox());
 

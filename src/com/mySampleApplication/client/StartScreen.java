@@ -11,7 +11,9 @@ import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.mySampleApplication.server.GameServerImpl;
 
 import java.awt.*;
 
@@ -42,7 +44,6 @@ public class StartScreen {
     private Label p1Ratio;
     private CssColor p1Color;
     private Label name;
-    private Label proc;
     private Label ratio;
     private Label p2Nick;
     private Label p2Ratio;
@@ -51,10 +52,34 @@ public class StartScreen {
     private TextBox nickName;
     private Grid welcomeBox;
     private Grid p1Grid;
-    
-    
+    private Grid p2Grid;
 
-    public void welcomePopUpBox() {
+    private Grid midMenuGrid;
+    private Label gameId;
+    private Label timeLeft;
+    private Label gameId_var;
+    private Label timeLeft_var;
+    private PushButton resetGame;
+
+    private TextBox SessionId;
+
+
+    public void StartScreen(){
+        setSessionID(new TextBox());
+        setWelcomeBox(new Grid(2, 2));
+
+        getWelcomeBox().setStyleName("welcome-box");
+
+        this.NewGamePopUpBox();
+        RootPanel.get("slot2").add(this.getWelcomeBox());
+
+
+
+    }
+
+    public void welcomePopUpBox(Player result) {
+        makeMidMenu();
+
         setBtnYellow(new RadioButton("colorGroup"));
         getBtnYellow().setValue(true);
         setBtnRed(new RadioButton("colorGroup"));
@@ -63,24 +88,12 @@ public class StartScreen {
         setGo(new Button("GO!"));
         setGrabChalk(new Label("GRAB CHALK!"));
         setNickname(new Label("CHOOSE YOUR NICKNAME:"));
+        setNickName(new TextBox());
+        getWelcomeBox().clear();
+        getWelcomeBox().resizeRows(3);
 
-        setSessionID(new TextBox());
-        setWelcomeBox(new Grid(3, 2));
 
-        getSessionID().addKeyDownHandler(new KeyDownHandler() {
-            @Override
-            public void onKeyDown(KeyDownEvent event) {
-                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    if (getSessionID().getValue().length() > 0) {
-                        setColor();
-                    } else {
-                        getSessionID().setText("NICK!");
-                        getSessionID().addClickHandler((ClickEvent event3) ->
-                                getSessionID().setText(""));
-                    }
-                }
-            }
-        });
+
         setColorBtnGroup(new FlowPanel());
         getColorBtnGroup().add(getBtnYellow());
         getColorBtnGroup().add(getBtnGreen());
@@ -94,13 +107,13 @@ public class StartScreen {
         getBtnPurple().setStyleName("btn-small");
         getBtnRed().setStyleName("btn-small");
 
-        getWelcomeBox().setStyleName("welcome-box");
+
         getGrabChalk().setStyleName("text_welcome");
         getNickname().setStyleName("text_welcome");
-        getSessionID().setStyleName("text_welcome_input");
+        getNickName().setStyleName("text_welcome_input");
 
         getWelcomeBox().setWidget(0, 0, getNickname());
-        getWelcomeBox().setWidget(0, 1, getSessionID());
+        getWelcomeBox().setWidget(0, 1, getNickName());
         getWelcomeBox().setWidget(1, 0, getGrabChalk());
         getWelcomeBox().setWidget(2, 0, getColorBtnGroup());
         getWelcomeBox().setWidget(2, 1, getGo());
@@ -108,29 +121,33 @@ public class StartScreen {
 
         // Moved from main class
 
-        go.addClickHandler((ClickEvent event) -> {
-            if (this.getSessionID().getValue().length() > 0) {
+        getGo().addClickHandler((ClickEvent event) -> {
+            if (this.getNickName().getText().length() > 0) {
                 this.setColor();
-
-                // Session creation
-                GameSessionCallback sessionCallback = new GameSessionCallback(this);
-
-                // New game button
-                newGame.addClickHandler((ClickEvent event2) -> {
-                    // Check is sessionId is valid
-                    if(this.getSessionID().getText().isEmpty()) {
-                        this.getSessionID().setText("Not valid ID!");
-                    } else {
-                        GameServer.App.getInstance().createSession(this.getSessionID().getText(), sessionCallback);
-                    }
-                });
+                this.spawnBoard(this.getSessionID().getText(), result);
 
             } else {
-                this.getSessionID().setText("NICK!");
-                this.getSessionID().addClickHandler((ClickEvent event3) ->
-                        this.getSessionID().setText(""));
+                this.getNickName().setText("NICK!");
+                this.getNickName().addClickHandler((ClickEvent event3) ->
+                        this.getNickName().setText(""));
             }
         });
+
+        /*getNickName().addKeyDownHandler(new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if (getNickName().getText().length() > 0) {
+                    setColor();
+                    spawnBoard(getSessionID().getText(), result);
+
+                } else {
+                    getNickName().setText("NICK!");
+                    getNickName().addClickHandler((ClickEvent event3) ->
+                            getNickName().setText(""));
+                }
+            }
+        });*/
+
     }
 
     
@@ -139,60 +156,122 @@ public class StartScreen {
         Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
 
-
-        RootPanel.get("slot2").remove(this.getWelcomeBox());
+        RootPanel.get("slot2").remove(0);
         RootPanel.get("slot2").add(board.getBoard());
 
         // run() updates state of both brushes
-        Timer run = new Timer() {
+        /*Timer run = new Timer() {
             @Override
             public void run() {
                 board.run();
             }
         };
-        run.scheduleRepeating(5);
+        run.scheduleRepeating(10);*/
     }
 
     private void NewGamePopUpBox() {
-        getWelcomeBox().clear();
-        getSessionID().setText("");
         setNewGame(new Button("CREATE\nGAME"));
-        getNickname().setText("ENTER GAME ID TO JOIN:");
+        setNickname(new Label("ENTER GAME ID TO JOIN:"));
         setJoinGame(new Button("JOIN\nGAME"));
-
-        setSessionID(new TextBox());
         getSessionID().setStyleName("text_welcome_input");
 
         getJoinGame().setStyleName("button-std");
-        getJoinGame().setEnabled(false);
         getNewGame().setStyleName("button-std");
-        getWelcomeBox().resizeRows(2);
         getWelcomeBox().setWidget(0, 0, getNickname());
         getWelcomeBox().setWidget(0, 1, getSessionID());
         getWelcomeBox().setWidget(1, 0, getNewGame());
         getWelcomeBox().setWidget(1, 1, getJoinGame());
+
+
+        // Session creation
+        GameSessionCallback sessionCallback = new GameSessionCallback(this);
+
+        getSessionID().addKeyDownHandler(new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+                    if(getSessionID().getText().isEmpty()) {
+                        getSessionID().setText("Not valid ID!");
+                    } else {
+                        GameServer.App.getInstance().createSession(getSessionID().getText(), sessionCallback);
+
+                    }
+                }
+            }
+        });
+
+        // New game button
+        getNewGame().addClickHandler((ClickEvent event2) -> {
+            // Check is sessionId is valid
+            if(this.getSessionID().getText().isEmpty()) {
+                this.getSessionID().setText("Not valid ID!");
+            } else {
+                GameServer.App.getInstance().createSession(this.getSessionID().getText(), sessionCallback);
+
+            }
+        });
+
+        getJoinGame().addClickHandler((ClickEvent event3) -> {
+            // Check is sessionId is valid
+            if(this.getSessionID().getText().isEmpty()) {
+                this.getSessionID().setText("Not valid ID!");
+            } else {
+                GameServer.App.getInstance().createSession(this.getSessionID().getText(), sessionCallback);
+                //this.welcomePopUpBox();
+            }
+        });
+
     }
 
     private void makeP1() {
         setP1Grid(new Grid(2, 2));
-        setP1Nick(new Label("B"));
+        setP1Nick(new Label(this.getNickName().getText().toUpperCase()));
         setName(new Label("PLAYER NAME: "));
-
-        setProc(new Label("%"));
         setRatio(new Label("RATIO: "));
-
-
-        getP1Nick().setText(getSessionID().getText().toUpperCase());
 
         getP1Grid().setWidget(0, 0, getName());
         getP1Grid().setWidget(0, 1, getP1Nick());
         getP1Grid().setWidget(1, 0, getRatio());
         getP1Grid().setWidget(1, 1, getP1Ratio());
-        //p1Grid.setWidget(1, 1, proc);
+
+        RootPanel.get("tab_p1_text").add(this.getP1Grid());
+    }
+    private void makeP2() {
+        setP2Grid(new Grid(2, 2));
+
+
+        //getP2Grid().setWidget(0, 0, getName());
+        //getP2Grid().setWidget(0, 1, getP1Nick());
+        //getP2Grid().setWidget(1, 0, getRatio());
+        //getP2Grid().setWidget(1, 1, getP1Ratio());
+
+        Document.get().getElementById("tab_p2").getStyle().setBackgroundColor(Green.value());
+        this.setP2Color(Green);
+
+        RootPanel.get("tab_p2_text").add(this.getP2Grid());
+    }
+    private void makeMidMenu(){
+        setGameId(new Label("GAME ID"));
+        setGameId_var(new Label(getSessionID().getText()));
+        setTimeLeft(new Label("TIME LEFT"));
+        setTimeLeft_var(new Label("40s"));
+        setMidMenuGrid(new Grid(2,2));
+        setResetGame(new PushButton(new Image("https://boqnfa.bn1304.livefilestore.com/y3mTp9e-o5NxYA6lPGMRUXtzOlTy55C83bgT0nuRFnzthFS1LBjeAqGyeJOdIMh3kBSGkfFhyhNKe3k_p9lcJR6CSfPVEb_y57j-mP6n5wJfVnvGCb56rehn6ZM6KESwcHnUOyetQDSjoisXsdgDz7pYRHSQre0ri0hCZE5TPaqsJE/reset.png?psid=1")));
+
+        getMidMenuGrid().setWidget(0, 0, getGameId());
+        getMidMenuGrid().setWidget(0, 1, getGameId_var());
+        getMidMenuGrid().setWidget(1, 0, getTimeLeft());
+        getMidMenuGrid().setWidget(1, 1, getTimeLeft_var());
+        /*getResetGame().addKeyDownHandler((ClickEvent e) -> (
+                this.RESET_KURWA_FUNCTION();
+        ));*/
+        RootPanel.get("tab_mid_menu_info").add(this.getMidMenuGrid());
+        RootPanel.get("tab_mid_menu_btnReset").add(this.getResetGame());
 
     }
 
-    public void setColor() {
+    private void setColor() {
+
         if (this.getBtnYellow().getValue().equals(true)) {
             Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
             this.setP1Color(Yellow);
@@ -210,9 +289,9 @@ public class StartScreen {
             this.setP1Color(Purple);
         }
         this.makeP1();
-        this.NewGamePopUpBox();
+        makeP2();
 
-        RootPanel.get("tab_p1_text").add(this.getP1Grid());
+
         /*this.getJoinGame().addClickHandler((ClickEvent event2) ->
             RootPanel.get("slot2").remove(this.getWelcomeBox())
         );
@@ -226,12 +305,14 @@ public class StartScreen {
             //RootPanel.get("slot2").add(board.getBoard());
     }
 
+    //-------------------------------------------------------------------------------------------------//
+
     public TextBox getSessionID() {
-        return nickName;
+        return SessionId;
     }
 
-    public void setSessionID(TextBox nickName) {
-        this.nickName = nickName;
+    public void setSessionID(TextBox SessionId) {
+        this.SessionId = SessionId;
     }
 
     public RadioButton getBtnGreen() {
@@ -322,13 +403,6 @@ public class StartScreen {
         this.name = name;
     }
 
-    public Label getProc() {
-        return proc;
-    }
-
-    public void setProc(Label proc) {
-        this.proc = proc;
-    }
 
     public Label getRatio() {
         return ratio;
@@ -402,6 +476,64 @@ public class StartScreen {
         JoinGame = joinGame;
     }
 
+    public Grid getMidMenuGrid() {
+        return midMenuGrid;
+    }
 
+    public void setMidMenuGrid(Grid midMenuGrid) {
+        this.midMenuGrid = midMenuGrid;
+    }
+
+    public Label getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Label gameId) {
+        this.gameId = gameId;
+    }
+
+    public Label getTimeLeft() {
+        return timeLeft;
+    }
+
+    public void setTimeLeft(Label timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public Label getGameId_var() {
+        return gameId_var;
+    }
+
+    public void setGameId_var(Label gameId_var) {
+        this.gameId_var = gameId_var;
+    }
+
+    public Label getTimeLeft_var() {
+        return timeLeft_var;
+    }
+
+    public void setTimeLeft_var(Label timeLeft_var) {
+        this.timeLeft_var = timeLeft_var;
+    }
+
+    public PushButton getResetGame() {
+        return resetGame;
+    }
+
+    public void setResetGame(PushButton resetGame) {
+        this.resetGame = resetGame;
+    }
+
+    public TextBox getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(TextBox nickName) {
+        this.nickName = nickName;
+    }
+
+    public Grid getP2Grid() { return p2Grid; }
+
+    public void setP2Grid(Grid p2Grid) { this.p2Grid = p2Grid; }
 }
 

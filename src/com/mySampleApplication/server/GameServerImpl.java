@@ -77,5 +77,6 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
             this.players[1] = player;
         }
 
+
     }
 }
