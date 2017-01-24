@@ -72,7 +72,7 @@ canvas {
 }
 
 .tab_p1_text td, .tab_p2_text td {
-    width: 50%;
+    width: auto;
 }
 
 .tab_p2_text {
