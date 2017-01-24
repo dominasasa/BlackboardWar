@@ -80,6 +80,9 @@ public class Board {
                 player.brush.x = event.getX();
                 player.brush.y = event.getY();
 
+                // Draw player locally
+                this.draw(player.brush);
+
                 // Update current player position
                 GameServer.App.getInstance().sendPlayer(player, sendPlayerCallback);
                 //covered(Ratiostream);
@@ -160,8 +163,11 @@ public class Board {
 
         @Override
         public void onSuccess(Player[] result) {
-            Board.this.draw(result[0].brush);
-            Board.this.draw(result[1].brush);
+            if(Board.this.player.order == Player.Order.FIRST) {
+                Board.this.draw(result[1].brush);
+            } else {
+                Board.this.draw(result[0].brush);
+            }
         }
     }
 

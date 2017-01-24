@@ -45,6 +45,10 @@ public class Brush implements IsSerializable {
         can_draw = true;
     }
 
+    /**
+     * Get brush color
+     * @return
+     */
     public String getColor() {
         return color;
     }
