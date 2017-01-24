@@ -10,7 +10,7 @@ public interface GameServerAsync {
 
 
 
-    void createSession(String ID, AsyncCallback<Player> async);
+    void createSession(String ID, String name, String color, AsyncCallback<Player> async);
 
     void sendPlayer(Player player, AsyncCallback<Void> async);
 

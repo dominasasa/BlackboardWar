@@ -10,7 +10,7 @@ import com.google.gwt.core.client.GWT;
 @RemoteServiceRelativePath("GameServer")
 public interface GameServer extends RemoteService {
 
-    Player createSession(String ID);
+    Player createSession(String ID, String name, String color);
 
     void sendPlayer(Player player);
     Player[] getPlayer(String sessionID);

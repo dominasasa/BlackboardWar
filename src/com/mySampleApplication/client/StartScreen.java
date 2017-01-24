@@ -110,6 +110,9 @@ public class StartScreen {
 
         go.addClickHandler((ClickEvent event) -> {
             if (this.getSessionID().getValue().length() > 0) {
+
+                // Save player name - needs refactor
+                String playerName = this.getSessionID().getValue();
                 this.setColor();
 
                 // Session creation
@@ -121,7 +124,7 @@ public class StartScreen {
                     if(this.getSessionID().getText().isEmpty()) {
                         this.getSessionID().setText("Not valid ID!");
                     } else {
-                        GameServer.App.getInstance().createSession(this.getSessionID().getText(), sessionCallback);
+                        GameServer.App.getInstance().createSession(this.getSessionID().getText(), playerName, this.getP1Color(), sessionCallback);
                     }
                 });
 
@@ -136,9 +139,8 @@ public class StartScreen {
     
     // Creates new game board and adds to RootPanel
     public void spawnBoard(String sessionID, Player player) {
-        Board board = new Board(600,600, this.getP1Color(), this.getP1Ratio(), sessionID, player);
+        Board board = new Board(600,600, this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
-
 
         RootPanel.get("slot2").remove(this.getWelcomeBox());
         RootPanel.get("slot2").add(board.getBoard());

@@ -1,7 +1,6 @@
 package com.mySampleApplication.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.mySampleApplication.client.Brush;
 import com.mySampleApplication.client.GameServer;
 import com.mySampleApplication.client.Player;
 
@@ -15,12 +14,12 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
     HashMap<String, GameSession> sessions = new HashMap<>();
 
     @Override
-    public Player createSession(String ID) {
+    public Player createSession(String ID, String name, String color) {
         System.out.println("Got ID: " + ID);
         if (sessions.containsKey(ID)) {
             if (sessions.get(ID).playerCount < 2) {
                 System.out.println("Adding to session with ID: " + ID);
-                Player player = new Player(Player.Order.SECOND);
+                Player player = new Player(ID, name, color, Player.Order.SECOND);
                 sessions.get(ID).setPlayer2(player);
                 sessions.get(ID).playerCount++;
                 return player;
@@ -32,7 +31,7 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
         } else {
             System.out.println("Creating session with ID: " + ID);
             GameSession gameSession = new GameSession(ID);
-            Player player = new Player(Player.Order.FIRST);
+            Player player = new Player(ID, name, color, Player.Order.FIRST);
             gameSession.setPlayer1(player);
             sessions.put(ID, gameSession);
             sessions.get(ID).playerCount++;
@@ -43,10 +42,10 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
     @Override
     public void sendPlayer(Player player) {
         if(player.order == Player.Order.FIRST) {
-            sessions.get(player.sessionID).players[0] = player;
+            sessions.get(player.sessionID).setPlayer1(player);
             System.out.println("Player 1: " + player.brush.x + ", " + player.brush.y);
         } else {
-            sessions.get(player.sessionID).players[1] = player;
+            sessions.get(player.sessionID).setPlayer2(player);
             System.out.println("Player 2: " + player.brush.x + ", " + player.brush.y);
         }
     }
@@ -75,6 +74,14 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
 
         public void setPlayer2(Player player) {
             this.players[1] = player;
+        }
+
+        public Player getPlayer1() {
+            return this.players[0];
+        }
+
+        public Player getPlayer2() {
+            return this.players[1];
         }
 
     }

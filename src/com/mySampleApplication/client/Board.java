@@ -40,22 +40,16 @@ public class Board {
     public SendPlayerCallback sendPlayerCallback;
     public GetPlayerCallback getPlayerCallback;
 
-    public Board(int width, int height, String playerColor, Label Ratiostream, String sessionID, Player player) {
+    public Board(int width, int height, Label Ratiostream, String sessionID, Player player) {
 
         // DEBUG
         Logger log = Logger.getLogger("hw");
 
         this.player = player;
-        player.brush = new Brush(0, 0, playerColor);
-
         this.sessionID = sessionID;
-
-        // Set sessionId in player brush
-        player.sessionID = this.sessionID;
 
         canvas = Canvas.createIfSupported();
         context = canvas.getContext2d();
-        color = CssColor.make(playerColor);
 
         /* setSize() takes String as parameters, not int */
         canvas.setSize(Integer.toString(width), Integer.toString(height));

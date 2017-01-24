@@ -22,7 +22,7 @@ public class Brush implements IsSerializable {
     public String color;
 
     // Empty constructor for serialization
-    Brush() {
+    public Brush() {
         this.x = 0;
         this.y = 0;
         this.prev_x = 0;
@@ -34,7 +34,7 @@ public class Brush implements IsSerializable {
 
     }
 
-    Brush(int x, int y, String color) {
+    public Brush(int x, int y, String color) {
         this.x = x;
         this.y = y;
         this.prev_x = x;
@@ -44,4 +44,9 @@ public class Brush implements IsSerializable {
         down = false;
         can_draw = true;
     }
+
+    public String getColor() {
+        return color;
+    }
+
 }
