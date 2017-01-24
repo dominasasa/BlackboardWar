@@ -96,7 +96,7 @@ public class Board {
 
                 // Update current player position
                 GameServer.App.getInstance().sendPlayer(player, sendPlayerCallback);
-                //covered(Ratiostream);
+                covered(Ratiostream);
 
                 //DEBUG
                 log.log(Level.INFO, "drawing");

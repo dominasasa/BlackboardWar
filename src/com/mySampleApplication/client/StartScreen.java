@@ -62,6 +62,7 @@ public class StartScreen {
     private Label gameId_var;
     private Label timeLeft_var;
     private PushButton resetGame;
+    private boolean stopScheduler = true;
 
     private TextBox SessionId;
 
@@ -136,7 +137,7 @@ public class StartScreen {
                 board.run();
             }
         };
-        run.scheduleRepeating(3);
+        run.scheduleRepeating(6);
     }
 
     private void NewGamePopUpBox() {
@@ -189,7 +190,7 @@ public class StartScreen {
 
     private void makeP1() {
         this.setP1Grid(new Grid(2, 2));
-        this.setName(new Label("PLAYER NAME: "));
+        this.setName(new Label("PLAYER 1: "));
         this.setRatio(new Label("RATIO: "));
 
 
@@ -203,12 +204,20 @@ public class StartScreen {
 
     private void makeP2() {
         setP2Grid(new Grid(1, 2));
-        Label name = new Label("PLAYER NAME: ");
+        Label name = new Label("PLAYER 2: ");
 
 
+        getP2Grid().setWidget(0, 0, name);
         GetPlayerCallback gpc = new GetPlayerCallback();
+        Scheduler.get().scheduleFixedPeriod(new Scheduler.RepeatingCommand() {
+            @Override
+            public boolean execute() {
 
-        GameServer.App.getInstance().getPlayer(getSessionID().getText(), gpc);
+                GameServer.App.getInstance().getPlayer(getSessionID().getText(), gpc);
+                return stopScheduler;
+            }
+        }, 500);
+
 
     }
     private void makeMidMenu(){
@@ -272,25 +281,18 @@ public class StartScreen {
         @Override
         public void onSuccess(Player[] result) {
             if(!result[1].name.equals(null)) {
-                if (StartScreen.this.getName().equals(result[0].name)) {
+                if (StartScreen.this.getP1Nick().getText().equals(result[0].name)) {
                     StartScreen.this.setP2Nick(new Label(result[1].name));
                     StartScreen.this.setP2Color(CssColor.make(result[1].brush.getColor()));
-                    Document.get().getElementById("tab_p2").getStyle().setBackgroundColor(StartScreen.this.getP2Color());
-                    getP2Grid().setWidget(0, 0, name);
-                    getP2Grid().setWidget(0, 1, StartScreen.this.getP2Nick());
-
-
-                    RootPanel.get("tab_p2_text").add(StartScreen.this.getP2Grid());
                 } else {
                     StartScreen.this.setP2Nick(new Label(result[0].name));
                     StartScreen.this.setP2Color(CssColor.make(result[0].brush.getColor()));
-                    Document.get().getElementById("tab_p2").getStyle().setBackgroundColor(StartScreen.this.getP2Color());
-                    getP2Grid().setWidget(0, 0, name);
-                    getP2Grid().setWidget(0, 1, StartScreen.this.getP2Nick());
 
-
-                    RootPanel.get("tab_p2_text").add(StartScreen.this.getP2Grid());
                 }
+                Document.get().getElementById("tab_p2").getStyle().setBackgroundColor(StartScreen.this.getP2Color());
+                getP2Grid().setWidget(0, 1, StartScreen.this.getP2Nick());
+                RootPanel.get("tab_p2_text").add(StartScreen.this.getP2Grid());
+                stopScheduler = false;
             }
         }
     }
