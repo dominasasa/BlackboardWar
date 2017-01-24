@@ -18,14 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by abcd on 2017-01-17.
- */
-
-
-/**
  * Class implementing game board
  * <p>
- * Constructor takes width, height, playerColor, ratiostream, sessionID, active player
+ * Creates canvas on which player draws. Contains methods, which enable retrieving data of the user
+ * and callbacks used to communicate with the server.
+ *
  */
 public class Board {
     public final Canvas canvas;
@@ -39,6 +36,20 @@ public class Board {
 
     public SendPlayerCallback sendPlayerCallback;
     public GetPlayerCallback getPlayerCallback;
+
+    /**
+     * Class constructor
+     * <p>
+     * Creates new canvas and brush of the current player. Adds handlers of mouse events and gets their
+     * coordinates.
+     *
+     * @param width width of the canvas
+     * @param height height of the canvas
+     * @param Ratiostream percentage of covered board
+     * @param sessionID ID of the current session
+     * @param player current player
+     *
+     */
 
     public Board(int width, int height, Label Ratiostream, String sessionID, Player player) {
 
@@ -107,6 +118,9 @@ public class Board {
         });
     }
 
+    /**
+     * Calculates the percentage of covered board.
+     */
     private void covered(Label la) {
 
         if (areaUpdates++ % 10 != 0) {
@@ -122,13 +136,17 @@ public class Board {
         }
     }
 
-    /*
-    Returns board canvas
+    /**
+     *  Returns board canvas
      */
     Canvas getBoard() {
         return canvas;
     }
 
+    /**
+     * Draws strokes on the canvas
+     * @param brush - brush used by the player
+     */
     void draw(Brush brush) {
 //        if (brush.can_draw && brush.down) {
             Board.this.context.beginPath();
@@ -146,13 +164,18 @@ public class Board {
         GameServer.App.getInstance().getPlayer(sessionID, getPlayerCallback);
     }
 
+    /**
+     * Sets the color of the current player.
+     * @param col - color chosen by the player
+     */
     public void setColor(String col) {
         this.color = CssColor.make(col);
     }
 
 
-    /* Callback retrieving both players positions from server
-    * */
+    /**
+     *  Callback retrieving both players' positions from the server
+     */
 
     class GetPlayerCallback implements AsyncCallback<Player[]> {
 

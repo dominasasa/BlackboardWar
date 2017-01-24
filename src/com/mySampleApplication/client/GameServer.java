@@ -5,7 +5,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.core.client.GWT;
 
 /**
- * Created by abcd on 2017-01-21.
+ * GameServer interface extending the GWT RemoteService interface.
  */
 @RemoteServiceRelativePath("GameServer")
 public interface GameServer extends RemoteService {

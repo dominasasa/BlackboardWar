@@ -1,27 +1,33 @@
 package com.mySampleApplication.client;
 
-/**
- * Created by abcd on 2017-01-22.
- */
-
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * Brush class
  * <p>
- * Stores current and previous(used for painting smoother lines) position of cursor.
- *
+ * Stores current and previous(used for painting smoother lines) positions of the cursor.
  *
  */
 
 public class Brush implements IsSerializable {
+    /**
+     * Coordinates of current and previous position of the cursor.
+     */
     public int x, y, prev_x, prev_y;
+
+    /**
+     * Boolean flags indicating drawing.
+     */
     public boolean down, can_draw;
 
+    /**
+     * Colour of the brush.
+     */
     public String color;
 
-    // Empty constructor for serialization
+    /**
+     *  Empty constructor for serialization
+     */
     public Brush() {
         this.x = 0;
         this.y = 0;
@@ -31,9 +37,15 @@ public class Brush implements IsSerializable {
 
         down = false;
         can_draw = false;
-
     }
 
+    /**
+     * Brush constructor.
+     *
+     * @param x horizontal coordinate of the brush
+     * @param y vertical coordinate of the brush
+     * @param color color of the brush
+     */
     public Brush(int x, int y, String color) {
         this.x = x;
         this.y = y;

@@ -4,11 +4,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 /**
- * Created by abcd on 2017-01-21.
+ * Asynchronous interface to be called from the client-side code.
  */
 public interface GameServerAsync {
-
-
 
     void createSession(String ID, String name, String color, AsyncCallback<Player> async);
 
