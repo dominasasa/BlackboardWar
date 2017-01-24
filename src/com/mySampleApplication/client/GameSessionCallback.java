@@ -15,6 +15,7 @@ public class GameSessionCallback implements AsyncCallback<Player> {
 
     /**
      * Called when asynchronous call fails to complete normally.
+     *
      * @param caught
      */
     @Override
@@ -24,6 +25,7 @@ public class GameSessionCallback implements AsyncCallback<Player> {
 
     /**
      * Called when asynchronous call completes successfully.
+     *
      * @param result
      */
     @Override
@@ -31,7 +33,7 @@ public class GameSessionCallback implements AsyncCallback<Player> {
         /**
          * Spawn board if session name is available.
          */
-        if(result != null) {
+        if (result != null) {
             startScreen.spawnBoard(startScreen.getSessionID().getText(), result);
         } else {
             startScreen.getSessionID().setText("Used ID!");

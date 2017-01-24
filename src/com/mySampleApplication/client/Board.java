@@ -22,7 +22,6 @@ import java.util.logging.Logger;
  * <p>
  * Creates canvas on which player draws. Contains methods, which enable retrieving data of the user
  * and callbacks used to communicate with the server.
- *
  */
 public class Board {
     public final Canvas canvas;
@@ -30,12 +29,10 @@ public class Board {
 
     public final Player player;
     public CssColor color;
-    private int areaUpdates = 0;
-
     public String sessionID;
-
     public SendPlayerCallback sendPlayerCallback;
     public GetPlayerCallback getPlayerCallback;
+    private int areaUpdates = 0;
 
     /**
      * Class constructor
@@ -43,12 +40,11 @@ public class Board {
      * Creates new canvas and brush of the current player. Adds handlers of mouse events and gets their
      * coordinates.
      *
-     * @param width width of the canvas
-     * @param height height of the canvas
+     * @param width       width of the canvas
+     * @param height      height of the canvas
      * @param Ratiostream percentage of covered board
-     * @param sessionID ID of the current session
-     * @param player current player
-     *
+     * @param sessionID   ID of the current session
+     * @param player      current player
      */
 
     public Board(int width, int height, Label Ratiostream, String sessionID, Player player) {
@@ -137,7 +133,7 @@ public class Board {
     }
 
     /**
-     *  Returns board canvas
+     * Returns board canvas
      */
     Canvas getBoard() {
         return canvas;
@@ -145,18 +141,19 @@ public class Board {
 
     /**
      * Draws strokes on the canvas
+     *
      * @param brush - brush used by the player
      */
     void draw(Brush brush) {
 //        if (brush.can_draw && brush.down) {
-            Board.this.context.beginPath();
-            Board.this.context.moveTo(brush.prev_x, brush.prev_y);
-            Board.this.context.setLineCap("round");
-            Board.this.context.setFillStyle(brush.color);
-            Board.this.context.setLineWidth(5);
-            Board.this.context.lineTo(brush.x, brush.y);
-            Board.this.context.setStrokeStyle(brush.color);
-            Board.this.context.stroke();
+        Board.this.context.beginPath();
+        Board.this.context.moveTo(brush.prev_x, brush.prev_y);
+        Board.this.context.setLineCap("round");
+        Board.this.context.setFillStyle(brush.color);
+        Board.this.context.setLineWidth(5);
+        Board.this.context.lineTo(brush.x, brush.y);
+        Board.this.context.setStrokeStyle(brush.color);
+        Board.this.context.stroke();
 //        }
     }
 
@@ -166,6 +163,7 @@ public class Board {
 
     /**
      * Sets the color of the current player.
+     *
      * @param col - color chosen by the player
      */
     public void setColor(String col) {
@@ -174,7 +172,7 @@ public class Board {
 
 
     /**
-     *  Callback retrieving both players' positions from the server
+     * Callback retrieving both players' positions from the server
      */
 
     class GetPlayerCallback implements AsyncCallback<Player[]> {
@@ -186,7 +184,7 @@ public class Board {
 
         @Override
         public void onSuccess(Player[] result) {
-            if(Board.this.player.order == Player.Order.FIRST) {
+            if (Board.this.player.order == Player.Order.FIRST) {
                 Board.this.draw(result[1].brush);
             } else {
                 Board.this.draw(result[0].brush);

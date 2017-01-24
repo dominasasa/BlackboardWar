@@ -121,10 +121,10 @@ public class StartScreen {
         });
     }
 
-    
+
     // Creates new game board and adds to RootPanel
     public void spawnBoard(String sessionID, Player player) {
-        Board board = new Board(600,600, this.getP1Ratio(), sessionID, player);
+        Board board = new Board(600, 600, this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
 
         RootPanel.get("slot2").remove(this.getWelcomeBox());
@@ -166,7 +166,7 @@ public class StartScreen {
         // New game button
         getNewGame().addClickHandler((ClickEvent event2) -> {
             // Check is sessionId is valid
-            if(this.getSessionID().getText().isEmpty()) {
+            if (this.getSessionID().getText().isEmpty()) {
                 this.getSessionID().setText("Not valid ID!");
             } else {
                 GameServer.App.getInstance().createSession(this.getSessionID().getText(), getP1Nick().getText(), this.getP1Color(), sessionCallback);
@@ -175,15 +175,13 @@ public class StartScreen {
         });
         getJoinGame().addClickHandler((ClickEvent event2) -> {
             // Check is sessionId is valid
-            if(this.getSessionID().getText().isEmpty()) {
+            if (this.getSessionID().getText().isEmpty()) {
                 this.getSessionID().setText("Not valid ID!");
             } else {
                 GameServer.App.getInstance().createSession(this.getSessionID().getText(), getP1Nick().getText(), this.getP1Color(), sessionCallback);
                 this.makeMidMenu();
             }
         });
-
-
 
 
     }
@@ -220,10 +218,11 @@ public class StartScreen {
 
 
     }
-    private void makeMidMenu(){
+
+    private void makeMidMenu() {
         setGameId(new Label("GAME ID"));
         setGameId_var(new Label(getSessionID().getText()));
-        setMidMenuGrid(new Grid(1,2));
+        setMidMenuGrid(new Grid(1, 2));
         setResetGame(new PushButton(new Image("https://boqnfa.bn1304.livefilestore.com/y3mTp9e-o5NxYA6lPGMRUXtzOlTy55C83bgT0nuRFnzthFS1LBjeAqGyeJOdIMh3kBSGkfFhyhNKe3k_p9lcJR6CSfPVEb_y57j-mP6n5wJfVnvGCb56rehn6ZM6KESwcHnUOyetQDSjoisXsdgDz7pYRHSQre0ri0hCZE5TPaqsJE/reset.png?psid=1")));
 
         getMidMenuGrid().setWidget(0, 0, getGameId());
@@ -267,8 +266,8 @@ public class StartScreen {
             /*
             Creates new board and adds to RootPanel
              */
-           // Board board = new Board(600, 600, this.getP1Color());
-            //RootPanel.get("slot2").add(board.getBoard());
+        // Board board = new Board(600, 600, this.getP1Color());
+        //RootPanel.get("slot2").add(board.getBoard());
     }
 
     class GetPlayerCallback implements AsyncCallback<Player[]> {
@@ -280,7 +279,7 @@ public class StartScreen {
 
         @Override
         public void onSuccess(Player[] result) {
-            if(!result[1].name.equals(null)) {
+            if (!result[1].name.equals(null)) {
                 if (StartScreen.this.getP1Nick().getText().equals(result[0].name)) {
                     StartScreen.this.setP2Nick(new Label(result[1].name));
                     StartScreen.this.setP2Color(CssColor.make(result[1].brush.getColor()));

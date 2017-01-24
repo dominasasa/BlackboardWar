@@ -184,10 +184,11 @@ input[type=radio]:checked + label {
     outline: none;
 }
 
-#tab_mid_menu_btnReset{
+#tab_mid_menu_btnReset {
     cursor: hand;
     padding: 30px;
 }
+
 #tab_mid_menu_info {
     padding-top: 30px;
     padding-left: 30px;

@@ -13,12 +13,12 @@ public interface GameServer extends RemoteService {
     Player createSession(String ID, String name, String color);
 
     void sendPlayer(Player player);
+
     Player[] getPlayer(String sessionID);
 
     /**
      * Utility/Convenience class.
      * Use GameServer.App.getInstance() to access static instance of GameServerAsync
-     *
      */
 
     public static class App {

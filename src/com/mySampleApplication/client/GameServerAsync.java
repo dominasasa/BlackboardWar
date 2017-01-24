@@ -12,7 +12,7 @@ public interface GameServerAsync {
 
     void sendPlayer(Player player, AsyncCallback<Void> async);
 
-    void getPlayer(String sessionID,AsyncCallback<Player[]> async);
+    void getPlayer(String sessionID, AsyncCallback<Player[]> async);
 }
 
 
