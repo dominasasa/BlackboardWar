@@ -8,11 +8,25 @@ import java.util.HashMap;
 
 
 /**
- * Created by abcd on 2017-01-21.
+ * Implementation of application server.
  */
 public class GameServerImpl extends RemoteServiceServlet implements GameServer {
     HashMap<String, GameSession> sessions = new HashMap<>();
 
+    /**
+     * Creates session fo current player.
+     *<p>
+     *    For new player,constructor creates new session with given ID. If the entered ID is already used and
+     *    the number of players is smaller than 2, then constructor creates new Player and adds it
+     *    to already existing session. If the number of players in given session is greater or equal to 2,
+     *    constructor returns null.
+     *</p>
+     * @param ID session ID entered by the player
+     * @param name player's name
+     * @param color color chosen by the player
+     * @return On success: returns Player object, representing current player.
+     *         On failure returns null.
+     */
     @Override
     public Player createSession(String ID, String name, String color) {
         System.out.println("Got ID: " + ID);
@@ -39,6 +53,10 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
         }
     }
 
+    /**
+     * Sends current player to the application server.
+     * @param player current player
+     */
     @Override
     public void sendPlayer(Player player) {
         if(player.order == Player.Order.FIRST) {
@@ -50,18 +68,40 @@ public class GameServerImpl extends RemoteServiceServlet implements GameServer {
         }
     }
 
+    /**
+     * Returns players of the given session.
+     * @param sessionID
+     * @return Player array
+     */
     @Override
     public Player[] getPlayer(String sessionID) {
         return sessions.get(sessionID).players;
     }
 
 
+    /**
+     * Class representing session of the current game.
+     */
     class GameSession {
+        /**
+         * ID of the session.
+         */
         String ID;
+
+        /**
+         * Array of players of the current game.
+         */
         Player[] players;
-        
+
+        /**
+         * Number of players.
+         */
         int playerCount;
 
+        /**
+         * Creates new GameSession
+         * @param ID ID of the session to be created.
+         */
         GameSession(String ID) {
             this.ID = ID;
             this.playerCount = 0;
