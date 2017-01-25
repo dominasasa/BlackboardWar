@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49c0ad41-2e24-4c85-bd0d-21ac0aae1c8e" name="Default" comment="Final vol 2, Liczy tylko swoj kolor, komentarze do StartScreen i MySampleApplication.java">
+    <list default="true" id="49c0ad41-2e24-4c85-bd0d-21ac0aae1c8e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$GetPlayerCallback.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$GetPlayerCallback.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$SendPlayerCallback.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$SendPlayerCallback.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board.class" />
