@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49c0ad41-2e24-4c85-bd0d-21ac0aae1c8e" name="Default" comment="">
+    <list default="true" id="49c0ad41-2e24-4c85-bd0d-21ac0aae1c8e" name="Default" comment="Final vol 2, Liczy tylko swoj kolor, komentarze do StartScreen i MySampleApplication.java">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$GetPlayerCallback.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$GetPlayerCallback.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$SendPlayerCallback.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board$SendPlayerCallback.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/Board.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/StartScreen$1.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/StartScreen$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/StartScreen.class" afterPath="$PROJECT_DIR$/out/production/BlackboardWar/com/mySampleApplication/client/StartScreen.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/mySampleApplication/client/Board.java" afterPath="$PROJECT_DIR$/src/com/mySampleApplication/client/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/mySampleApplication/client/MySampleApplication.java" afterPath="$PROJECT_DIR$/src/com/mySampleApplication/client/MySampleApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/mySampleApplication/client/StartScreen.java" afterPath="$PROJECT_DIR$/src/com/mySampleApplication/client/StartScreen.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -701,7 +703,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Mid Menu, Gracz 2 działa tylko dla 2 logującego się" />
     <MESSAGE value="Final" />
-    <option name="LAST_COMMIT_MESSAGE" value="Final" />
+    <MESSAGE value="Final vol 2, Liczy tylko swoj kolor, komentarze do StartScreen i MySampleApplication.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final vol 2, Liczy tylko swoj kolor, komentarze do StartScreen i MySampleApplication.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -728,7 +731,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -746,7 +748,6 @@
           <caret line="116" column="30" lean-forward="false" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -789,7 +790,6 @@
           <caret line="116" column="30" lean-forward="false" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -825,7 +825,6 @@
           <caret line="116" column="30" lean-forward="false" selection-start-line="116" selection-start-column="26" selection-end-line="116" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -868,7 +867,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
@@ -1112,7 +1110,6 @@
           <caret line="516" column="5" lean-forward="false" selection-start-line="516" selection-start-column="5" selection-end-line="516" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1485307860796" expanded="true" signature="494:692" ph="/**...*/" />
           </folding>
         </state>
       </provider>
