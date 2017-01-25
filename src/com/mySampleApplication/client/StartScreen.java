@@ -4,69 +4,106 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.*;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-
-import java.awt.*;
 
 /**
  * Created by odomi on 16.01.2017.
  */
-public class StartScreen {
 
+/**
+ * class creating
+ * - left menu with players and Session Id
+ * - both pop up boxes one to get nick name and color second to get session id
+ * - Board
+ * and appends it to appropriate places
+ */
+class StartScreen {
+    /**
+     * Colors used in app
+     */
     private static final CssColor Yellow = CssColor.make("#FFF43A");
     private static final CssColor Red = CssColor.make("#FF4C47");
     private static final CssColor Green = CssColor.make("#33E35A");
     private static final CssColor Purple = CssColor.make("#9E63FF");
 
-
+    /**
+     * Button group to choose Player's brush color
+     */
+    private FlowPanel colorBtnGroup;
     private RadioButton btnYellow;
     private RadioButton btnRed;
     private RadioButton btnGreen;
     private RadioButton btnPurple;
+
+    /**
+     * buttons used in popup boxes
+     */
     private Button go;
     private Button newGame;
     private Button JoinGame;
-    private FlowPanel colorBtnGroup;
 
+    /**
+     * Info to user in popup boxes
+     */
     private Label nickname;
     private Label grabChalk;
-
-    private Label p1Nick;
-    private Label p1Ratio;
-    private CssColor p1Color;
     private Label name;
-    private Label proc;
     private Label ratio;
-    private Label p2Nick;
-    private Label p2Ratio;
-    private CssColor p2Color;
+
+    /**
+     * Elements of both popup boxes: input TextBoxes and grid
+     */
 
     private TextBox nickName;
     private Grid welcomeBox;
+    private TextBox SessionId;
+
+    /**
+     * Player's data
+     */
+    private Label p1Nick;
+    private Label p1Ratio;
+    private CssColor p1Color;
+
+
+    /**
+     * Opponent's data
+     */
+    private Label p2Nick;
+    private CssColor p2Color;
+
+    /**
+     * Grid for Player's info boxes in the left menu
+     */
     private Grid p1Grid;
     private Grid p2Grid;
 
     private Grid midMenuGrid;
     private Label gameId;
-    private Label timeLeft;
     private Label gameId_var;
-    private Label timeLeft_var;
-    private PushButton resetGame;
+    /**
+     * handler to turn off scheduler when opponent info arrived
+     */
     private boolean stopScheduler = true;
 
-    private TextBox SessionId;
 
-    public void welcomePopUpBox() {
+    /**
+     * WelcomePopUpBox
+     * Creates and shows First PopUp Box
+     * Creates 3x2 Grid and fills it with:
+     * - input Textbox to get nickname of player
+     * - some info-labels
+     * - Go button to:
+     * -- call function saving color choosed by user,
+     * -- call function creating next box
+     * -- proceed to next step
+     * - RadioButtons group showing available colors
+     */
+    void welcomePopUpBox() {
         setBtnYellow(new RadioButton("colorGroup"));
         getBtnYellow().setValue(true);
         setBtnRed(new RadioButton("colorGroup"));
@@ -104,8 +141,6 @@ public class StartScreen {
         getWelcomeBox().setWidget(2, 1, getGo());
 
 
-        // Moved from main class
-
         go.addClickHandler((ClickEvent event) -> {
             if (this.getNickName().getValue().length() > 0) {
 
@@ -121,9 +156,12 @@ public class StartScreen {
         });
     }
 
-    
-    // Creates new game board and adds to RootPanel
-    public void spawnBoard(String sessionID, Player player) {
+
+    /**
+     * Creates new game board and adds to RootPanel
+     * creates timer to periodically check opponent position
+     **/
+    void spawnBoard(String sessionID, Player player) {
         Board board = new Board(600,600, this.getP1Ratio(), sessionID, player);
         board.setColor(this.getP1Color());
 
@@ -139,7 +177,16 @@ public class StartScreen {
         };
         run.scheduleRepeating(6);
     }
-
+    /**
+     * NewGamePopUpBox
+     * Creates and shows Second PopUp Box
+     * Creates 2x2 Grid and fills it with:
+     * - input Textbox to get session ID
+     * - some info-labels
+     * - New Game button and Join Game button to:
+     * -- create session
+     * -- create player in session remembering brush color, nick, and session Id
+     */
     private void NewGamePopUpBox() {
 
         getWelcomeBox().clear();
@@ -188,6 +235,13 @@ public class StartScreen {
 
     }
 
+    /**
+     * Creates Panel for Player, who calls the function and appends itself to RootPanel
+     * It is everytime on the top
+     * Shows Player's Nickname and % of the total area covered by Player color
+     *
+     */
+
     private void makeP1() {
         this.setP1Grid(new Grid(2, 2));
         this.setName(new Label("PLAYER 1: "));
@@ -199,9 +253,14 @@ public class StartScreen {
         this.getP1Grid().setWidget(1, 0, getRatio());
         this.getP1Grid().setWidget(1, 1, this.getP1Ratio());
 
-
+        RootPanel.get("tab_p1_text").add(this.getP1Grid());
     }
-
+    /**
+     * Creates Panel for Opponent, op player who calls the function and appends itself to RootPanel
+     * It is everytime on the bottom
+     * Shows Player's Nickname
+     * Calls for opponent's data every half second until it is able to get it
+     **/
     private void makeP2() {
         setP2Grid(new Grid(1, 2));
         Label name = new Label("PLAYER 2: ");
@@ -209,36 +268,37 @@ public class StartScreen {
 
         getP2Grid().setWidget(0, 0, name);
         GetPlayerCallback gpc = new GetPlayerCallback();
-        Scheduler.get().scheduleFixedPeriod(new Scheduler.RepeatingCommand() {
-            @Override
-            public boolean execute() {
-
-                GameServer.App.getInstance().getPlayer(getSessionID().getText(), gpc);
-                return stopScheduler;
-            }
+        Scheduler.get().scheduleFixedPeriod(() -> {
+            GameServer.App.getInstance().getPlayer(getSessionID().getText(), gpc);
+            return stopScheduler;
         }, 500);
 
 
     }
+
+    /**
+     * Creates menu between players' info boxes
+     * shows Session Id
+     */
     private void makeMidMenu(){
         setGameId(new Label("GAME ID"));
         setGameId_var(new Label(getSessionID().getText()));
         setMidMenuGrid(new Grid(1,2));
-        setResetGame(new PushButton(new Image("https://boqnfa.bn1304.livefilestore.com/y3mTp9e-o5NxYA6lPGMRUXtzOlTy55C83bgT0nuRFnzthFS1LBjeAqGyeJOdIMh3kBSGkfFhyhNKe3k_p9lcJR6CSfPVEb_y57j-mP6n5wJfVnvGCb56rehn6ZM6KESwcHnUOyetQDSjoisXsdgDz7pYRHSQre0ri0hCZE5TPaqsJE/reset.png?psid=1")));
-
         getMidMenuGrid().setWidget(0, 0, getGameId());
         getMidMenuGrid().setWidget(0, 1, getGameId_var());
-        /*getResetGame().addKeyDownHandler((ClickEvent e) -> (
-                this.RESET_KURWA_FUNCTION();
-        ));*/
+
         RootPanel.get("tab_mid_menu_info").add(this.getMidMenuGrid());
-        RootPanel.get("tab_mid_menu_btnReset").add(this.getResetGame());
 
         this.makeP2();
 
     }
-
-    public void setColor() {
+    /**
+     * setColor function checks which radio button had been checked when user clicked "GO" button
+     * saves Player's color
+     * sets choosen color as background to player's info box in menu
+     * calls constructor of player's info box
+     */
+    private void setColor() {
         if (this.getBtnYellow().getValue().equals(true)) {
             Document.get().getElementById("tab_p1").getStyle().setBackgroundColor(Yellow.value());
             this.setP1Color(Yellow);
@@ -257,25 +317,16 @@ public class StartScreen {
         }
         this.makeP1();
 
-        RootPanel.get("tab_p1_text").add(this.getP1Grid());
-        /*this.getJoinGame().addClickHandler((ClickEvent event2) ->
-            RootPanel.get("slot2").remove(this.getWelcomeBox())
-        );
-        this.getNewGame().addClickHandler((ClickEvent event2) -> {
-            RootPanel.get("slot2").remove(this.getWelcomeBox());*/
-
-            /*
-            Creates new board and adds to RootPanel
-             */
-           // Board board = new Board(600, 600, this.getP1Color());
-            //RootPanel.get("slot2").add(board.getBoard());
     }
 
+    /**
+     * To asynchronously call server for opponent's nickname and brush color
+     * sets received data
+     */
     class GetPlayerCallback implements AsyncCallback<Player[]> {
 
         @Override
-        public void onFailure(Throwable caught) {
-            //Window.alert("can't get brush!");
+        public void onFailure(Throwable caught){
         }
 
         @Override
@@ -393,14 +444,6 @@ public class StartScreen {
         this.name = name;
     }
 
-    public Label getProc() {
-        return proc;
-    }
-
-    public void setProc(Label proc) {
-        this.proc = proc;
-    }
-
     public Label getRatio() {
         return ratio;
     }
@@ -415,14 +458,6 @@ public class StartScreen {
 
     public void setP2Nick(Label p2Nick) {
         this.p2Nick = p2Nick;
-    }
-
-    public Label getP2Ratio() {
-        return p2Ratio;
-    }
-
-    public void setP2Ratio(Label p2Ratio) {
-        this.p2Ratio = p2Ratio;
     }
 
     public String getP2Color() {
@@ -511,14 +546,6 @@ public class StartScreen {
 
     public void setGameId_var(Label gameId_var) {
         this.gameId_var = gameId_var;
-    }
-
-    public PushButton getResetGame() {
-        return resetGame;
-    }
-
-    public void setResetGame(PushButton resetGame) {
-        this.resetGame = resetGame;
     }
 }
 

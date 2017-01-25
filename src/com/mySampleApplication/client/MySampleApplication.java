@@ -6,7 +6,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class MySampleApplication implements EntryPoint {
-
+    /**
+     * Function creantes new StartScreen object
+     * calls function to create welcome popup box
+     * creates label storing player's ratio
+     * appends welcome popup Box to root panel
+     */
     public void onModuleLoad() {
 
         StartScreen MainPage = new StartScreen();

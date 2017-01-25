@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 
 
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,6 +57,8 @@ public class Board {
         // DEBUG
         Logger log = Logger.getLogger("hw");
 
+        final ComplexInterface coveredF;
+
         this.player = player;
         this.sessionID = sessionID;
 
@@ -67,6 +70,29 @@ public class Board {
 
         canvas.setCoordinateSpaceWidth(width);
         canvas.setCoordinateSpaceHeight(height);
+
+        /**
+         * Choose matching function to calculate area covered by one player
+         */
+        switch (this.player.brush.getColor()){
+            case "#9E63FF":{
+                coveredF = Board::purpleFunction;
+                break;
+            }
+            case "#33E35A":{
+                coveredF = Board::greenFunction;
+                break;
+            }
+            case "#FF4C47":{
+                coveredF = Board::redFunction;
+                break;
+            }
+            default:{
+                coveredF = Board::yellowFunction;
+                break;
+            }
+
+        }
 
         //Callbacks
         sendPlayerCallback = new SendPlayerCallback();
@@ -96,7 +122,7 @@ public class Board {
 
                 // Update current player position
                 GameServer.App.getInstance().sendPlayer(player, sendPlayerCallback);
-                covered(Ratiostream);
+                covered(Ratiostream, coveredF);
 
                 //DEBUG
                 log.log(Level.INFO, "drawing");
@@ -116,25 +142,74 @@ public class Board {
                 context.clearRect(0, 0, width, height);
             }
         });
+
+
     }
 
     /**
+     * Functions to pass appropriate helping function
+     */
+
+    @FunctionalInterface
+    public static interface ComplexInterface{
+        int someMethod(CanvasPixelArray canvasPixelArray);
+    }
+    private static String complexMethod(CanvasPixelArray canvasPixelArray) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(canvasPixelArray);
+        return builder.toString();
+    }
+    /**
      * Calculates the percentage of covered board.
      */
-    private void covered(Label la) {
+    private void covered(Label la, ComplexInterface funct) {
 
-        if (areaUpdates++ % 10 != 0) {
+        if (areaUpdates++ % 20 != 0) {
             int pixels = 0;
             ImageData imageData = context.getImageData(0, 0, 600, 600);
 
             CanvasPixelArray canvasPixelArray = imageData.getData();
-            for (int i = 3; i < canvasPixelArray.getLength(); i += 4) {
-                if (canvasPixelArray.get(i) > 50) pixels++;
-            }
-            pixels = pixels / 3600;
+
+            pixels = funct.someMethod(canvasPixelArray);
+            pixels = pixels/3600;
+
             la.setText(NumberFormat.getFormat("###").format(pixels) + "%");
         }
     }
+    /**
+     * Helping functions to calculate area covered by just one color as follows: Green, Red, Yellow, Purple
+     */
+    private static int greenFunction(CanvasPixelArray canvasPixelArray){
+        int pixels = 0;
+        for (int i = 0; i < canvasPixelArray.getLength(); i += 4) {
+            if (canvasPixelArray.get(i) < 100 && canvasPixelArray.get(i+1) > 200) pixels++;
+        }
+        return pixels;
+    }
+    private static int redFunction(CanvasPixelArray canvasPixelArray){
+        int pixels = 0;
+        for (int i = 0; i < canvasPixelArray.getLength(); i += 4) {
+            if (canvasPixelArray.get(i) > 200 && canvasPixelArray.get(i+1) < 100) pixels++;
+        }
+        return pixels;
+    }
+    private static int yellowFunction(CanvasPixelArray canvasPixelArray){
+        int pixels = 0;
+        for (int i = 0; i < canvasPixelArray.getLength(); i += 4) {
+            if (canvasPixelArray.get(i) > 200 && canvasPixelArray.get(i+1) > 200) pixels++;
+        }
+        return pixels;
+
+    }
+    private static int purpleFunction(CanvasPixelArray canvasPixelArray){
+        int pixels = 0;
+        for (int i = 2; i < canvasPixelArray.getLength(); i += 4) {
+            if (canvasPixelArray.get(i) > 200) pixels++;
+        }
+        return pixels;
+    }
+
+
 
     /**
      *  Returns board canvas
